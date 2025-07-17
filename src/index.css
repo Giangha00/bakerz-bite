@@ -1,7 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Inter", sans-serif;
 }
 
 :root {
@@ -13,11 +16,25 @@
   --footer-secondary-text-color: #fde68a;
   --button-text-color: #ffffff;
   --button-color: linear-gradient(#d97706, #ea580c);
-  --price-background-color: #f59e0b;
+  --price-background-color: #fcd34d;
+  --border-input-color: #f59e0b;
+  --border-input-focus-color: #fbbf24;
   --border-card-radius: 0.75rem;
   --border-button-radius: 0.5rem;
 }
 
 .main-content {
-  margin-top: 70px;
+  margin-top: 4.5rem;
+}
+
+@media (max-width: 1120px) {
+  .main-content {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 700px) {
+  .main-content {
+    margin-top: 0;
+  }
 }
