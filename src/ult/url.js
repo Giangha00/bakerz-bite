@@ -7,6 +7,7 @@ const URL = {
   UPDATE_ORDER: "/update_order.php",
   FEED_BACK: "/feed_back.php",
   CREATE_FEED_BACK: "/create_feed_back.php",
+  MERCHANDISE_LIST: "merchandise.php",
 };
 
 export default URL;
