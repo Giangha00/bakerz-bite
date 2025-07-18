@@ -9,10 +9,11 @@ import {
 } from "./pages";
 import NavBar from "./components/NavBar";
 import { Routes, Route } from "react-router-dom";
+import { UserProvider } from "./context/context";
 
 function App() {
   return (
-    <>
+    <UserProvider>
       <NavBar />
       <div className="main-content">
         <Routes>
@@ -25,7 +26,7 @@ function App() {
           <Route path="/cart" element={<Cart />} />
         </Routes>
       </div>
-    </>
+    </UserProvider>
   );
 }
 
