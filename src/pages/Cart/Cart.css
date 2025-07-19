@@ -1,0 +1,15 @@
+.cart-content{
+    background: var(--secondary-background-color);
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    flex-direction: column;
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+.cart-icon
+{
+    width: 200px;
+    height: 200px;
+    color : red;
+}
