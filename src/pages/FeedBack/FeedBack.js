@@ -53,7 +53,7 @@ const FeedBack = () => {
 
   useEffect(() => {
     getFeedback();
-  }, []); // <-- empty dependency array: runs only once on mount
+  }, []);
 
   return (
     <div className="feedback-container">

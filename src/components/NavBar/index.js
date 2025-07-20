@@ -4,9 +4,15 @@ import logo from "../../assets/logo.svg";
 import visitor from "../../assets/visitor.svg";
 import cart from "../../assets/cart.svg";
 import { NavLink } from "react-router-dom";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <nav className="navbar">
@@ -24,24 +30,34 @@ export default function Navbar() {
         </div>
         <ul className={`navbar-links${open ? " open" : ""}`}>
           <li>
-            <NavLink to="/" end>
+            <NavLink to="/" onClick={handleClose} end>
               Home
             </NavLink>
           </li>
           <li>
-            <NavLink to="/merchandise">Merchandise</NavLink>
+            <NavLink to="/merchandise" onClick={handleClose}>
+              Merchandise
+            </NavLink>
           </li>
           <li>
-            <NavLink to="/about_us">About Us</NavLink>
+            <NavLink to="/about_us" onClick={handleClose}>
+              About Us
+            </NavLink>
           </li>
           <li>
-            <NavLink to="/contact_us">Contact Us</NavLink>
+            <NavLink to="/contact_us" onClick={handleClose}>
+              Contact Us
+            </NavLink>
           </li>
           <li>
-            <NavLink to="/faq">FAQ</NavLink>
+            <NavLink to="/faq" onClick={handleClose}>
+              FAQ
+            </NavLink>
           </li>
           <li>
-            <NavLink to="/feed_back">Feedback</NavLink>
+            <NavLink to="/feed_back" onClick={handleClose}>
+              Feedback
+            </NavLink>
           </li>
         </ul>
         <div className="navbar-right">
@@ -58,7 +74,10 @@ export default function Navbar() {
             onClick={() => setOpen((prev) => !prev)}
             aria-label="Toggle navigation"
           >
-            ≡
+            <FontAwesomeIcon
+              icon={faBars}
+              style={{ width: "1rem", height: "1rem" }}
+            />
           </button>
         </div>
       </div>
