@@ -2,7 +2,7 @@
   max-width: 1200px;
   margin: 40px auto;
   padding: 0 12px;
-  background: transparent;
+  background: var(--secondary-background-color);
 }
 section.cu-root {
   margin-top: 120px;

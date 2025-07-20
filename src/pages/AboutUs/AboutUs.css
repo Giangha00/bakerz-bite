@@ -1,12 +1,8 @@
-body, .au-root {
-  background: #fdf3e6 !important;
-}
-
 .au-root {
   max-width: 1400px;
   margin: 120px auto 0 auto;
   padding: 0 12px;
-  background: transparent;
+  background: var(--secondary-background-color);
 }
 @media (max-width: 900px) {
   .au-root {
