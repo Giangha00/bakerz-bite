@@ -17,7 +17,7 @@
   color: #7c4a03;
   margin-bottom: 8px;
   letter-spacing: 1px;
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: "Segoe UI", Arial, sans-serif;
 }
 
 .au-subtitle {
@@ -25,7 +25,7 @@
   color: #b77b3b;
   font-size: 20px;
   margin-bottom: 44px;
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: "Segoe UI", Arial, sans-serif;
 }
 
 .au-main-row {
@@ -55,7 +55,7 @@
   width: 100%;
   max-width: 700px;
   border-radius: 24px;
-  box-shadow: 0 8px 32px rgba(183,123,59,0.18);
+  box-shadow: 0 8px 32px rgba(183, 123, 59, 0.18);
   object-fit: cover;
   background: #fff;
 }
@@ -64,7 +64,7 @@
   color: #7c4a03;
   margin-bottom: 18px;
   font-weight: bold;
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: "Segoe UI", Arial, sans-serif;
   text-align: left;
 }
 .au-story-text {
@@ -72,7 +72,7 @@
   font-size: 22px;
   line-height: 1.7;
   margin-bottom: 18px;
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: "Segoe UI", Arial, sans-serif;
   text-align: left;
   letter-spacing: 0.01em;
 }
@@ -100,7 +100,7 @@
   max-width: 320px;
   background: #fff;
   border-radius: 18px;
-  box-shadow: 0 6px 24px rgba(183,123,59,0.13);
+  box-shadow: 0 6px 24px rgba(183, 123, 59, 0.13);
   padding: 36px 18px 24px 18px;
   text-align: center;
   display: flex;
@@ -120,19 +120,19 @@
   color: #e6a23c;
   font-size: 1.35rem;
   margin-bottom: 8px;
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: "Segoe UI", Arial, sans-serif;
 }
 
 .au-feature-desc {
   color: #7c4a03;
   font-size: 1.05rem;
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: "Segoe UI", Arial, sans-serif;
 }
 
 .au-commitment-row {
   background: #fff;
   border-radius: 24px;
-  box-shadow: 0 8px 32px rgba(183,123,59,0.10);
+  box-shadow: 0 8px 32px rgba(183, 123, 59, 0.1);
   padding: 72px 56px 56px 56px;
   margin: 48px auto 0 auto;
   width: 100%;
@@ -151,7 +151,7 @@
   font-size: 2.4rem;
   font-weight: bold;
   margin-bottom: 48px;
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: "Segoe UI", Arial, sans-serif;
 }
 .au-commitment-cards {
   display: grid;
@@ -173,8 +173,8 @@
   border-radius: 20px;
   padding: 36px 32px 32px 32px;
   text-align: center;
-  box-shadow: 0 6px 24px rgba(183,123,59,0.12);
-  font-family: 'Segoe UI', Arial, sans-serif;
+  box-shadow: 0 6px 24px rgba(183, 123, 59, 0.12);
+  font-family: "Segoe UI", Arial, sans-serif;
   margin: 0;
   display: block;
   transition: all 0.2s;
@@ -203,12 +203,12 @@
   color: #e6a23c;
   font-size: 1.35rem;
   margin-bottom: 16px;
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: "Segoe UI", Arial, sans-serif;
 }
 .au-commitment-card-desc {
   color: #7c4a03;
   font-size: 1.12rem;
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: "Segoe UI", Arial, sans-serif;
   line-height: 1.6;
 }
 

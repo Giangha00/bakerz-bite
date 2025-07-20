@@ -12,7 +12,7 @@
   color: #7c4a03;
   margin-bottom: 8px;
   letter-spacing: 1px;
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: "Segoe UI", Arial, sans-serif;
 }
 
 .faq-subtitle {
@@ -20,7 +20,7 @@
   color: #b77b3b;
   font-size: 1.08rem;
   margin-bottom: 36px;
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: "Segoe UI", Arial, sans-serif;
 }
 
 .faq-list {
@@ -32,13 +32,13 @@
 .faq-item {
   background: #fff;
   border-radius: 18px;
-  box-shadow: 0 6px 24px rgba(183,123,59,0.13);
+  box-shadow: 0 6px 24px rgba(183, 123, 59, 0.13);
   padding: 0;
   overflow: hidden;
   transition: box-shadow 0.2s;
 }
 .faq-item.open {
-  box-shadow: 0 8px 32px rgba(183,123,59,0.18);
+  box-shadow: 0 8px 32px rgba(183, 123, 59, 0.18);
 }
 .faq-question {
   width: 100%;
@@ -54,7 +54,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: "Segoe UI", Arial, sans-serif;
   transition: background 0.2s;
 }
 .faq-question:hover {
@@ -73,13 +73,19 @@
   padding: 0 28px 22px 28px;
   color: #b77b3b;
   font-size: 1.08rem;
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: "Segoe UI", Arial, sans-serif;
   animation: fadeIn 0.3s;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 800px) {
@@ -87,7 +93,8 @@
     max-width: 98vw;
     padding: 0 2vw;
   }
-  .faq-question, .faq-answer {
+  .faq-question,
+  .faq-answer {
     padding-left: 12px;
     padding-right: 12px;
   }
@@ -97,7 +104,7 @@
   margin: 48px auto 0 auto;
   background: #fff;
   border-radius: 18px;
-  box-shadow: 0 6px 24px rgba(183,123,59,0.13);
+  box-shadow: 0 6px 24px rgba(183, 123, 59, 0.13);
   padding: 32px 24px 28px 24px;
   max-width: 900px;
   text-align: center;
@@ -107,13 +114,13 @@
   font-size: 1.35rem;
   font-weight: bold;
   margin-bottom: 8px;
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: "Segoe UI", Arial, sans-serif;
 }
 .faq-contact-desc {
   color: #b77b3b;
   font-size: 1.05rem;
   margin-bottom: 22px;
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: "Segoe UI", Arial, sans-serif;
 }
 .faq-contact-btns {
   display: flex;
@@ -131,7 +138,7 @@
   background: #e6a23c;
   text-decoration: none;
   transition: background 0.2s, box-shadow 0.2s;
-  box-shadow: 0 2px 8px rgba(183,123,59,0.10);
+  box-shadow: 0 2px 8px rgba(183, 123, 59, 0.1);
 }
 .faq-btn:hover {
   background: #b77b3b;
