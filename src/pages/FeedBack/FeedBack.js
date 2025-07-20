@@ -19,7 +19,7 @@ const FeedBack = () => {
   });
   const [reviews, setReviews] = useState([]);
 
-  const stars = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const stars = [1, 2, 3, 4, 5];
 
   const createReview = async () => {
     const rs = await axios_instance.post(URL.CREATE_FEED_BACK, {
@@ -33,12 +33,6 @@ const FeedBack = () => {
       message: data.message,
     });
   };
-
-  const newData = [
-    { id: 1, name: "John Doe" },
-    { id: 2, name: "Jane Smith" },
-    { id: 3, name: "Alice Johnson" },
-  ];
 
   const inputHandle = (e) => {
     const { name, value } = e.target;
@@ -60,10 +54,6 @@ const FeedBack = () => {
   useEffect(() => {
     getFeedback();
   }, []);
-
-  newData.map((value, index) => {
-    console.log("value", value.name);
-  });
 
   return (
     <div className="feedback-container">
