@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./NavBar.css";
 import logo from "../../assets/logo.svg";
 import visitor from "../../assets/visitor.svg";
@@ -9,6 +9,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [visitors, setVisitors] = useState(0);
+
+  useEffect(() => {
+    const currentCount = Number(localStorage.getItem("visitorCount")) || 0;
+    setVisitors(currentCount);
+    localStorage.setItem("visitorCount", currentCount + 1);
+  }, []);
 
   const handleClose = () => {
     setOpen(false);
@@ -67,7 +74,8 @@ export default function Navbar() {
             </NavLink>
           </div>
           <div className="navbar-visitors">
-            <img src={visitor} alt="visitor" />4
+            <img src={visitor} alt="visitor" />
+            {visitors}
           </div>
           <button
             className="navbar-hamburger"

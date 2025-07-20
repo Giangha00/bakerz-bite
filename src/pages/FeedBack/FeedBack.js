@@ -55,6 +55,29 @@ const FeedBack = () => {
     getFeedback();
   }, []);
 
+  const timeAgo = (dateString) => {
+    const date = new Date(dateString);
+    const now = new Date();
+
+    const diffInSeconds = Math.floor((now - date) / 1000);
+    if (diffInSeconds < 60) {
+      return `${diffInSeconds} seconds ago`;
+    }
+
+    const diffInMinutes = Math.floor(diffInSeconds / 60);
+    if (diffInMinutes < 60) {
+      return `${diffInMinutes} minutes ago`;
+    }
+
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    if (diffInHours < 24) {
+      return `${diffInHours} hours ago`;
+    }
+
+    const diffInDays = Math.floor(diffInHours / 24);
+    return `${diffInDays} days ago`;
+  };
+
   return (
     <div className="feedback-container">
       <p className="feedback-title">Customer Feedback</p>
@@ -135,7 +158,11 @@ const FeedBack = () => {
                   onChange={inputHandle}
                 />
               </div>
-              <button className="feedback-submit">
+              <button
+                className="feedback-submit"
+                type="submit"
+                disabled={!feedback.name || !feedback.email}
+              >
                 <FontAwesomeIcon
                   icon={faPlane}
                   style={{
@@ -191,7 +218,7 @@ const FeedBack = () => {
                               />
                             );
                           })}
-                          <p>2 day ago</p>
+                          <p>{timeAgo(review.create_at)}</p>
                         </div>
                       </div>
                     </div>
