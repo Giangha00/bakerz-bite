@@ -6,6 +6,7 @@ import {
   Faq,
   FeedBack,
   Merchandise,
+  
 } from "./pages";
 import NavBar from "./components/NavBar";
 import { Routes, Route } from "react-router-dom";
@@ -24,6 +25,7 @@ function App() {
           <Route path="/faq" element={<Faq />} />
           <Route path="/feed_back" element={<FeedBack />} />
           <Route path="/cart" element={<Cart />} />
+          
         </Routes>
       </div>
     </UserProvider>
