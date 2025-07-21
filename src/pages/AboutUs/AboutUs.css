@@ -1,75 +1,70 @@
-.au-root {
-  max-width: 1400px;
-  margin: 120px auto 0 auto;
-  padding: 0 12px;
+.aboutus-container {
   background: var(--secondary-background-color);
+  min-height: 100vh;
+  padding: 4rem 0;
 }
-@media (max-width: 900px) {
-  .au-root {
-    padding: 0 4px;
-  }
+
+.au-root {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 3.5vw;
 }
 
 .au-title {
   text-align: center;
-  font-size: 44px;
-  font-weight: bold;
-  color: #7c4a03;
-  margin-bottom: 8px;
-  letter-spacing: 1px;
+  font-size: 2.25rem;
+  font-weight: 600;
+  color: var(--primary-text-color);
+  margin-top: 1rem;
   font-family: 'Segoe UI', Arial, sans-serif;
 }
 
 .au-subtitle {
   text-align: center;
-  color: #b77b3b;
-  font-size: 20px;
-  margin-bottom: 44px;
-  font-family: 'Segoe UI', Arial, sans-serif;
+  color: var(--secondary-text-color);
+  font-size: 1.125rem;
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
 }
 
 .au-main-row {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: 56px;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 80px;
 }
-.au-story-col {
-  flex: 0 1 42%;
-  min-width: 340px;
-  max-width: 42%;
-  padding-right: 0;
+.au-story-col, .au-img-col {
+  flex: 1 1 0;
+  max-width: 50%;
+  min-width: 0;
 }
 .au-img-col {
-  flex: 0 1 58%;
-  min-width: 320px;
-  max-width: 58%;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-end;
-  padding-left: 0;
 }
 .au-main-img {
   width: 100%;
-  max-width: 700px;
+  max-width: 540px;
+  min-width: 320px;
   border-radius: 24px;
   box-shadow: 0 8px 32px rgba(183,123,59,0.18);
   object-fit: cover;
-  background: #fff;
+  margin-right: 0;
 }
 .au-story-title {
   font-size: 2rem;
-  color: #7c4a03;
+  color: var(--primary-text-color);
   margin-bottom: 18px;
   font-weight: bold;
   font-family: 'Segoe UI', Arial, sans-serif;
   text-align: left;
 }
 .au-story-text {
-  color: #7c4a03;
-  font-size: 22px;
+  color: var(--primary-text-color);
+  font-size: 1.15rem;
   line-height: 1.7;
   margin-bottom: 18px;
   font-family: 'Segoe UI', Arial, sans-serif;
@@ -97,10 +92,10 @@
 }
 .au-feature-card {
   width: 100%;
-  max-width: 320px;
+  max-width: 280px;
   background: #fff;
-  border-radius: 18px;
-  box-shadow: 0 6px 24px rgba(183,123,59,0.13);
+  border-radius: var(--faq-card-radius, 24px);
+  box-shadow: var(--faq-card-shadow, 0 4px 24px 0 rgba(0,0,0,0.08));
   padding: 36px 18px 24px 18px;
   text-align: center;
   display: flex;
@@ -117,117 +112,139 @@
 
 .au-feature-title {
   font-weight: bold;
-  color: #e6a23c;
+  color: var(--primary-text-color);
   font-size: 1.35rem;
   margin-bottom: 8px;
   font-family: 'Segoe UI', Arial, sans-serif;
 }
 
 .au-feature-desc {
-  color: #7c4a03;
+  color: var(--primary-text-color);
   font-size: 1.05rem;
   font-family: 'Segoe UI', Arial, sans-serif;
 }
 
 .au-commitment-row {
   background: #fff;
-  border-radius: 24px;
-  box-shadow: 0 8px 32px rgba(183,123,59,0.10);
-  padding: 72px 56px 56px 56px;
+  border-radius: var(--faq-card-radius, 24px);
+  box-shadow: var(--faq-card-shadow, 0 4px 24px 0 rgba(0,0,0,0.08));
+  padding: 56px 36px 48px 36px;
   margin: 48px auto 0 auto;
   width: 100%;
-  max-width: 1400px;
+  max-width: 1200px;
 }
 @media (max-width: 900px) {
   .au-commitment-row {
     padding: 24px 8px 18px 8px;
     border-radius: 16px;
     margin: 18px auto 0 auto;
+    max-width: 98vw;
   }
-}
-.au-commitment-title {
-  text-align: center;
-  color: #7c4a03;
-  font-size: 2.4rem;
-  font-weight: bold;
-  margin-bottom: 48px;
-  font-family: 'Segoe UI', Arial, sans-serif;
-}
-.au-commitment-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 48px;
-  width: 100%;
-  margin: 0;
-  padding: 0;
 }
 @media (max-width: 767px) {
   .au-commitment-cards {
     grid-template-columns: 1fr;
-    gap: 18px;
+    gap: 24px;
+    justify-items: center;
   }
 }
-.au-commitment-card {
+.au-commitment-cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px;
   width: 100%;
-  background: #fff;
-  border-radius: 20px;
-  padding: 36px 32px 32px 32px;
-  text-align: center;
-  box-shadow: 0 6px 24px rgba(183,123,59,0.12);
-  font-family: 'Segoe UI', Arial, sans-serif;
-  margin: 0;
-  display: block;
-  transition: all 0.2s;
-  font-size: 1.15rem;
+  margin: 0 auto;
+  padding: 0;
+  justify-items: center;
 }
 @media (max-width: 900px) {
-  .au-commitment-card {
-    padding: 20px 16px 16px 16px;
-    font-size: 1.01rem;
-    border-radius: 14px;
+  .au-commitment-cols {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    justify-items: center;
   }
-}
-@media (max-width: 767px) {
-  .au-commitment-card {
+  .au-commitment-col {
+    max-width: 340px;
     width: 100%;
-    padding: 20px 12px 16px 12px;
-    font-size: 1.01rem;
-    border-radius: 14px;
+    margin: 0 auto;
   }
 }
-.au-commitment-card:last-child {
-  margin-bottom: 0;
+.au-commitment-col {
+  width: 100%;
+  max-width: 340px;
+  text-align: center;
+  margin: 0;
+  display: block;
 }
-.au-commitment-card-title {
+.au-commitment-title {
+  text-align: center;
+  width: 100%;
+  margin: 0 auto 32px auto;
+  color: var(--primary-text-color);
+  font-size: 2.2rem;
   font-weight: bold;
-  color: #e6a23c;
-  font-size: 1.35rem;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.au-commitment-col-title {
+  font-weight: bold;
+  color: var(--primary-text-color);
+  font-size: 1.45rem;
   margin-bottom: 16px;
   font-family: 'Segoe UI', Arial, sans-serif;
 }
-.au-commitment-card-desc {
+.au-commitment-col-desc {
   color: #7c4a03;
-  font-size: 1.12rem;
+  font-size: 1.13rem;
   font-family: 'Segoe UI', Arial, sans-serif;
-  line-height: 1.6;
+  line-height: 1.7;
+}
+/* Xóa style card nhỏ */
+.au-commitment-card, .au-commitment-card-title, .au-commitment-card-desc { display: none !important; }
+
+.au-feature-card, .au-commitment-col {
+  width: 100%;
+  max-width: 340px;
+  margin: 0 auto;
 }
 
+.au-features-row, .au-commitment-cols {
+  gap: 48px;
+}
 @media (max-width: 1100px) {
+  .au-features-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+}
+@media (max-width: 900px) {
+  .au-commitment-cols {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    justify-items: center;
+  }
+  .au-feature-card, .au-commitment-col {
+    max-width: 340px;
+    width: 100%;
+    margin: 0 auto;
+  }
+}
+@media (max-width: 700px) {
+  .au-features-row {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 900px) {
   .au-main-row {
     flex-direction: column;
-    gap: 18px;
+    gap: 24px;
     margin-bottom: 40px;
   }
-  .au-story-col {
+  .au-story-col, .au-img-col {
     max-width: 100%;
     flex: 1 1 100%;
-  }
-  .au-img-col {
-    max-width: 100%;
-    flex: 1 1 100%;
-    justify-content: flex-start;
-    margin-top: 12px;
-    padding-left: 0;
   }
   .au-main-img {
     max-width: 100%;
