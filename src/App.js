@@ -10,10 +10,26 @@ import {
 import NavBar from "./components/NavBar";
 import { Routes, Route } from "react-router-dom";
 import { UserProvider } from "./context/context";
+import { useEffect, useReducer } from "react";
+import STATE from "./context/initState";
+import reducer from "./context/reducer";
+import RunTime from "./components/RunTime";
 
 function App() {
+  let storage = localStorage.getItem("state");
+  if (storage !== null) {
+    storage = JSON.parse(storage);
+  } else {
+    storage = STATE;
+  }
+  const [state, dispatch] = useReducer(reducer, storage);
+
+  useEffect(() => {
+    localStorage.setItem("state", JSON.stringify(state));
+  }, [state]);
+
   return (
-    <UserProvider>
+    <UserProvider value={{ state, dispatch }}>
       <NavBar />
       <div className="main-content">
         <Routes>
@@ -26,6 +42,7 @@ function App() {
           <Route path="/cart" element={<Cart />} />
         </Routes>
       </div>
+      <RunTime />
     </UserProvider>
   );
 }
