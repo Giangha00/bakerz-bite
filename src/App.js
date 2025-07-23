@@ -14,6 +14,7 @@ import { useEffect, useReducer } from "react";
 import STATE from "./context/initState";
 import reducer from "./context/reducer";
 import RunTime from "./components/RunTime";
+import Footer from "./components/Footer";
 
 function App() {
   let storage = localStorage.getItem("state");
@@ -42,6 +43,7 @@ function App() {
           <Route path="/cart" element={<Cart />} />
         </Routes>
       </div>
+      {/* <Footer /> */}
       <RunTime />
     </UserProvider>
   );
