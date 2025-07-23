@@ -59,7 +59,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: "Segoe UI", Arial, sans-serif;
   transition: background 0.2s;
 }
 .faq-question:hover {
@@ -80,13 +80,19 @@
   padding: 0 28px 22px 28px;
   color: var(--secondary-text-color);
   font-size: 1.08rem;
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: "Segoe UI", Arial, sans-serif;
   animation: fadeIn 0.3s;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .faq-contact-box {
@@ -155,7 +161,8 @@
     max-width: 98vw;
     padding: 0 2vw;
   }
-  .faq-question, .faq-answer {
+  .faq-question,
+  .faq-answer {
     padding-left: 12px;
     padding-right: 12px;
   }

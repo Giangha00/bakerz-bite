@@ -1,9 +1,14 @@
-import './ContactUs.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPhone, faEnvelope, faMapMarkerAlt, faClock } from '@fortawesome/free-solid-svg-icons';
+import "./ContactUs.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPhone,
+  faEnvelope,
+  faMapMarkerAlt,
+  faClock,
+} from "@fortawesome/free-solid-svg-icons";
 
-const iconStyle = { color: '#e6a23c', fontSize: '1.5rem' };
-const mapIconStyle = { color: '#e6a23c', fontSize: '2.2rem' };
+const iconStyle = { color: "#e6a23c", fontSize: "1.5rem" };
+const mapIconStyle = { color: "#e6a23c", fontSize: "2.2rem" };
 
 const ContactUs = () => {
   return (

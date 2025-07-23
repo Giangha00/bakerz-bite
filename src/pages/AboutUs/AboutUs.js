@@ -1,12 +1,29 @@
-import './AboutUs.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAward, faHeart, faClock, faUsers } from '@fortawesome/free-solid-svg-icons';
+import "./AboutUs.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faAward,
+  faHeart,
+  faClock,
+  faUsers,
+} from "@fortawesome/free-solid-svg-icons";
 
 const featureIcons = [
-  <FontAwesomeIcon icon={faAward} style={{ color: '#e6a23c', fontSize: '2.1rem' }} />, // Premium Quality
-  <FontAwesomeIcon icon={faHeart} style={{ color: '#e6a23c', fontSize: '2.1rem' }} />, // Made with Love
-  <FontAwesomeIcon icon={faClock} style={{ color: '#e6a23c', fontSize: '2.1rem' }} />, // Fresh Daily
-  <FontAwesomeIcon icon={faUsers} style={{ color: '#e6a23c', fontSize: '2.1rem' }} />, // Family Focused
+  <FontAwesomeIcon
+    icon={faAward}
+    style={{ color: "#e6a23c", fontSize: "2.1rem" }}
+  />, // Premium Quality
+  <FontAwesomeIcon
+    icon={faHeart}
+    style={{ color: "#e6a23c", fontSize: "2.1rem" }}
+  />, // Made with Love
+  <FontAwesomeIcon
+    icon={faClock}
+    style={{ color: "#e6a23c", fontSize: "2.1rem" }}
+  />, // Fresh Daily
+  <FontAwesomeIcon
+    icon={faUsers}
+    style={{ color: "#e6a23c", fontSize: "2.1rem" }}
+  />, // Family Focused
 ];
 
 const AboutUs = () => {

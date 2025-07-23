@@ -1,5 +1,5 @@
 const STATE = {
-  rate: 0,
+  cart: [],
 };
 
 export default STATE;
