@@ -9,13 +9,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const [visitors, setVisitors] = useState(0);
+  // const [visitors, setVisitors] = useState(0);
 
-  useEffect(() => {
-    const currentCount = Number(localStorage.getItem("visitorCount")) || 0;
-    setVisitors(currentCount);
-    localStorage.setItem("visitorCount", currentCount + 1);
-  }, []);
+  // useEffect(() => {
+  //   const currentCount = Number(localStorage.getItem("visitorCount")) || 0;
+  //   setVisitors(currentCount);
+  //   localStorage.setItem("visitorCount", currentCount + 1);
+  // }, []);
 
   const handleClose = () => {
     setOpen(false);
@@ -73,10 +73,10 @@ export default function Navbar() {
               <img src={cart} alt="cart" />
             </NavLink>
           </div>
-          <div className="navbar-visitors">
+          {/* <div className="navbar-visitors">
             <img src={visitor} alt="visitor" />
             {visitors}
-          </div>
+          </div> */}
           <button
             className="navbar-hamburger"
             onClick={() => setOpen((prev) => !prev)}

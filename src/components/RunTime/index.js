@@ -5,8 +5,9 @@ import {
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
+import { forwardRef } from "react";
 
-const RunTime = () => {
+const RunTime = forwardRef((props, ref) => {
   const currentDate = new Date();
   const formattedDate = currentDate.toLocaleDateString("en-US", {
     weekday: "long",
@@ -23,7 +24,7 @@ const RunTime = () => {
   });
 
   return (
-    <div className="run-time-container">
+    <div className="run-time-container" ref={ref}>
       <div className="run-time">
         <p>
           <FontAwesomeIcon
@@ -55,6 +56,6 @@ const RunTime = () => {
       </div>
     </div>
   );
-};
+});
 
 export default RunTime;
