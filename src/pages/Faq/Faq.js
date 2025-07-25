@@ -1,5 +1,7 @@
-import React, { useState } from "react";
-import "./Faq.css";
+import React, { useState } from 'react';
+import './Faq.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
 const faqData = [
   {
@@ -62,33 +64,26 @@ const Faq = () => {
   };
 
   return (
-    <section className="faq-root">
-      <h1 className="faq-title">Frequently Asked Questions</h1>
-      <p className="faq-subtitle">
-        Find answers to common questions about our products and services
-      </p>
-      <div className="faq-list">
-        {faqData.map((item, idx) => (
-          <div
-            className={`faq-item${openIndex === idx ? " open" : ""}`}
-            key={idx}
-          >
-            <button
-              className="faq-question"
-              onClick={() => toggleAccordion(idx)}
-            >
-              {item.question}
-              <span className="faq-arrow">{openIndex === idx ? "▲" : "▼"}</span>
-            </button>
-            <div
-              className="faq-answer"
-              style={{ display: openIndex === idx ? "block" : "none" }}
-            >
-              {item.answer}
+    <div className="faq-container">
+      <section className="faq-root">
+        <h1 className="faq-title">Frequently Asked Questions</h1>
+        <p className="faq-subtitle">Find answers to common questions about our products and services</p>
+        <div className="faq-list">
+          {faqData.map((item, idx) => (
+            <div className={`faq-item${openIndex === idx ? ' open' : ''}`} key={idx}>
+              <button className="faq-question" onClick={() => toggleAccordion(idx)}>
+                {item.question}
+                <span className="faq-arrow">
+                  <FontAwesomeIcon icon={openIndex === idx ? faChevronUp : faChevronDown} />
+                </span>
+              </button>
+              <div className="faq-answer" style={{ display: openIndex === idx ? 'block' : 'none' }}>
+                {item.answer}
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </section>
       <div className="faq-contact-box">
         <h2 className="faq-contact-title">Still Have Questions?</h2>
         <p className="faq-contact-desc">
@@ -104,7 +99,7 @@ const Faq = () => {
           </a>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

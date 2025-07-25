@@ -1,11 +1,22 @@
+.contactus-container {
+  background: var(--secondary-background-color);
+  min-height: 100vh;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  padding: 4rem 0;
+}
+
 .cu-root {
-  max-width: 1200px;
-  margin: 40px auto;
-  padding: 0 12px;
-  background: transparent;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 2rem;
 }
 section.cu-root {
-  margin-top: 120px;
+  margin-top: 30px;
 }
 .cu-title {
   text-align: center !important;
@@ -14,18 +25,17 @@ section.cu-root {
   color: #7c4a03;
   margin-bottom: 8px;
   letter-spacing: 1px;
-  font-family: "Segoe UI", Arial, sans-serif !important;
+  font-family: 'Segoe UI', Arial, sans-serif !important;
 }
-.cu-subtitle,
-.cu-card-title {
-  font-family: "Segoe UI", Arial, sans-serif !important;
+.cu-subtitle, .cu-card-title {
+  font-family: 'Segoe UI', Arial, sans-serif !important;
 }
 .cu-subtitle {
   text-align: center;
   color: #b77b3b;
   font-size: 1.08rem;
   margin-bottom: 36px;
-  font-family: "Segoe UI", Arial, sans-serif;
+  font-family: 'Segoe UI', Arial, sans-serif;
 }
 .cu-main-row {
   display: flex;
@@ -61,7 +71,7 @@ section.cu-root {
 .cu-card {
   background: #fff;
   border-radius: 18px;
-  box-shadow: 0 6px 24px rgba(183, 123, 59, 0.13);
+  box-shadow: 0 6px 24px rgba(183,123,59,0.13);
   padding: 28px 28px 22px 28px;
   margin-bottom: 0;
   max-width: 100%;
@@ -73,7 +83,7 @@ section.cu-root {
   font-size: 1.18rem;
   font-weight: bold;
   margin-bottom: 18px;
-  font-family: "Segoe UI", Arial, sans-serif;
+  font-family: 'Segoe UI', Arial, sans-serif;
 }
 .cu-icon-box {
   background: #fff3e0;
@@ -167,7 +177,7 @@ section.cu-root {
   border-radius: 7px;
   padding: 10px 12px;
   font-size: 1rem;
-  font-family: "Segoe UI", Arial, sans-serif;
+  font-family: 'Segoe UI', Arial, sans-serif;
   background: #fffdfa;
   color: #4b3a1e;
   outline: none;
@@ -189,7 +199,7 @@ section.cu-root {
   border-radius: 8px;
   padding: 14px 0;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(183, 123, 59, 0.1);
+  box-shadow: 0 2px 8px rgba(183,123,59,0.10);
   transition: background 0.2s;
 }
 .cu-btn:hover {
@@ -201,8 +211,7 @@ section.cu-root {
     flex-direction: column;
     gap: 18px;
   }
-  .cu-left-col,
-  .cu-right-col {
+  .cu-left-col, .cu-right-col {
     min-width: 0;
   }
   .cu-left-col.cu-center-col {

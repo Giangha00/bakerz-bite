@@ -21,7 +21,8 @@ const FeedBack = () => {
 
   const stars = [1, 2, 3, 4, 5];
 
-  const createReview = async () => {
+  const createReview = async (e) => {
+    e.preventDefault();
     const rs = await axios_instance.post(URL.CREATE_FEED_BACK, {
       feedback: feedback,
     });
