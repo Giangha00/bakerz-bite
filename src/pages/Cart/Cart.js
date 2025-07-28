@@ -1,10 +1,15 @@
 import { CiShoppingCart } from "react-icons/ci";
 import "../Cart/Cart.css";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import UserContext from "../../context/context";
 
 const Cart = () => {
-  const cartData = localStorage.getItem("state");
-  console.log("cartData", cartData);
+  // const cartData = localStorage.getItem("state");
+  // console.log("cartData", cartData);
+
+  const { state, dispatch } = useContext(UserContext);
+  console.log(state.cart);
   return (
     <div className="cart-content">
       <div>
