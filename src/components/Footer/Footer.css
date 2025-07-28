@@ -27,6 +27,11 @@
   max-width: 25rem;
 }
 
+.footer-column a {
+  color: var(--footer-primary-text-color);
+  text-decoration: none;
+}
+
 .footer-column img {
   height: 3rem;
 }
