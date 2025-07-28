@@ -23,6 +23,20 @@ const Cart = () => {
         <Link to="/">
           <button className="cart-content-btn">Start shopping</button>
         </Link>
+        {state.cart.map((e, k) => {
+          return (
+            <tr key={k}>
+              <td>#{k + 1}</td>
+              <td>
+                <img src={e.thumbnail} width={80} />
+              </td>
+              <td>{e.name}</td>
+              <td>{e.price}</td>
+              <td>{e.buyQty}</td>
+              <td>{e.buyQty * e.price}</td>
+            </tr>
+          );
+        })}
       </div>
     </div>
   );
