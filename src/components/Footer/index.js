@@ -6,8 +6,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { TbBrandFacebook } from "react-icons/tb";
 import { FaInstagram } from "react-icons/fa";
 import { FiTwitter } from "react-icons/fi";
+import { NavLink } from "react-router-dom";
 
 const Footer = () => {
+  const onScroll = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <div className="footer-container">
       <div className="footer-content">
@@ -22,12 +30,36 @@ const Footer = () => {
           <div className="footer-column">
             <h3>Quick Links</h3>
             <ul>
-              <li>Home</li>
-              <li>Merchandise</li>
-              <li>About Us</li>
-              <li>Contact Us</li>
-              <li>FAQ</li>
-              <li>Feedback</li>
+              <li>
+                <NavLink to="/" onClick={onScroll}>
+                  Home
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/merchandise" onClick={onScroll}>
+                  Merchandise
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/about_us" onClick={onScroll}>
+                  About Us
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/contact_us" onClick={onScroll}>
+                  Contact Us
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/faq" onClick={onScroll}>
+                  FAQ
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/feed_back" onClick={onScroll}>
+                  FeedBack
+                </NavLink>
+              </li>
             </ul>
           </div>
           <div className="footer-column">
