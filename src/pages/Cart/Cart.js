@@ -5,25 +5,28 @@ import { useContext } from "react";
 import UserContext from "../../context/context";
 
 const Cart = () => {
-  // const cartData = localStorage.getItem("state");
-  // console.log("cartData", cartData);
-
   const { state, dispatch } = useContext(UserContext);
-  console.log(state.cart);
+
   return (
     <div className="cart-content">
-      <div>
-        <CiShoppingCart className="cart-icon" />
-      </div>
-      <div className="cart">
-        <h1 className="cart-content-title">Your Cart Is Empty</h1>
-        <p className="cart-content-des">
-          Looks like you haven't added any delicious items to your cart yet.
-        </p>
-        <Link to="/">
-          <button className="cart-content-btn">Start shopping</button>
-        </Link>
-      </div>
+      {state.cart.length !== 0 ? (
+        <div>new view</div>
+      ) : (
+        <>
+          <div>
+            <CiShoppingCart className="cart-icon" />
+          </div>
+          <div className="cart">
+            <h1 className="cart-content-title">Your Cart Is Empty</h1>
+            <p className="cart-content-des">
+              Looks like you haven't added any delicious items to your cart yet.
+            </p>
+            <Link to="/">
+              <button className="cart-content-btn">Start shopping</button>
+            </Link>
+          </div>
+        </>
+      )}
     </div>
   );
 };
