@@ -5,5 +5,6 @@ import Faq from "./Faq/Faq";
 import Merchandise from "./Merchandise/Merchandise";
 import ContactUs from "./ContactUs/ContactUs";
 import FeedBack from "./FeedBack/FeedBack";
+import Detail from "./Detail/Detail";
 
-export { Home, AboutUs, Cart, Faq, Merchandise, ContactUs, FeedBack };
+export { Home, AboutUs, Cart, Faq, Merchandise, ContactUs, FeedBack, Detail };

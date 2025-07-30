@@ -4,7 +4,6 @@ import "../Cart/Cart.css";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import UserContext from "../../context/context";
-import { width } from "@fortawesome/free-regular-svg-icons/faAddressBook";
 
 const Cart = () => {
   const { state, dispatch } = useContext(UserContext);

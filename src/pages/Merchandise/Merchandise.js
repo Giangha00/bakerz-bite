@@ -3,6 +3,10 @@ import axios_instance from "../../ult/axios_instance";
 import URL from "../../ult/url";
 import UserContext from "../../context/context";
 import "../Merchandise/Merchandise.css";
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
+import { NavLink } from "react-router-dom";
 
 const Merchandise = () => {
   const { state, dispatch } = useContext(UserContext);
@@ -49,27 +53,54 @@ const Merchandise = () => {
             products.map((product) => {
               if (product.type === "Merchandise") {
                 return (
-                  <div className="merchandise-cart">
-                    <div key={product.id}>
-                      <p className="merchandise-cart-price">
-                        Price: ${product.price}
-                      </p>
-                      <img
-                        className="merchandise-cart-img"
-                        src={product.thumbnail}
-                        alt={product.name}
-                      />
-                      <h3 className="merchandise-cart-name">{product.name}</h3>
-                      <p className="merchandise-cart-des">
-                        {product.description}
-                      </p>
-
-                      <button
-                        className="merchandise-cart-btn"
-                        onClick={() => addToCart(product)}
-                      >
-                        Add to Cart
-                      </button>
+                  <div className="merchandise-cart" key={product.id}>
+                    {/* <p className="merchandise-cart-price">
+                      Price: ${product.price}
+                    </p> */}
+                    <img
+                      className="merchandise-cart-img"
+                      src={product.thumbnail}
+                      alt={product.name}
+                    />
+                    <div className="merchandise-cart-info">
+                      <div className="merchandise-cart-info__row">
+                        <div>
+                          <h3 className="merchandise-cart-name">
+                            {product.name}
+                          </h3>
+                          <p className="merchandise-cart-des">
+                            {product.description}
+                          </p>
+                        </div>
+                        <div>
+                          <FontAwesomeIcon
+                            icon={faHeart}
+                            style={{
+                              color: "red",
+                              fontSize: "1.5rem",
+                              cursor: "pointer",
+                              marginBottom: 8,
+                            }}
+                          />
+                          <p className="merchandise-cart-price">
+                            ${product.price}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="merchandise-cart-btns">
+                        <NavLink
+                          to={`/detail/${product.id}`}
+                          className="merchandise-cart-btn__detail"
+                        >
+                          View Detail
+                        </NavLink>
+                        <button
+                          className="merchandise-cart-btn__add"
+                          onClick={() => addToCart(product)}
+                        >
+                          Add to Cart
+                        </button>
+                      </div>
                     </div>
                   </div>
                 );
