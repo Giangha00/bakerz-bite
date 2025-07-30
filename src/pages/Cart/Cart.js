@@ -6,7 +6,6 @@ import UserContext from "../../context/context";
 
 const Cart = () => {
   const { state, dispatch } = useContext(UserContext);
-  // const cart = JSON.parse(localStorage.getItem("state")) || [];
 
   return (
     <div className="cart-content">
