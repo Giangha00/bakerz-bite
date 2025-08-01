@@ -11,6 +11,7 @@ import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
+import { NavLink } from "react-router-dom";
 
 const Detail = () => {
   const { id } = useParams();
@@ -20,6 +21,7 @@ const Detail = () => {
   const [error, setError] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [buyQty, setBuyQty] = useState(1);
+  const [allProducts, setAllProducts] = useState([]);
 
   const getProductDetail = async () => {
     try {
@@ -28,15 +30,27 @@ const Detail = () => {
       const data = response.data.data;
       setProduct(data);
     } catch (error) {
+      console.error("Error fetching product detail:", error);
       setError("Failed to load product details");
     } finally {
       setLoading(false);
     }
   };
 
+  const getAllProducts = async () => {
+    try {
+      const response = await axios_instance.get(URL.GET_PRODUCTS);
+      const data = response.data.data;
+      setAllProducts(data);
+    } catch (error) {
+      console.error("Error fetching all products:", error);
+    }
+  };
+
   useEffect(() => {
     if (id) {
       getProductDetail();
+      getAllProducts();
     }
   }, [id]);
 
@@ -56,18 +70,39 @@ const Detail = () => {
 
   const nextImage = () => {
     if (!product || !product.images) return;
-    const images = JSON.parse(product.images);
-    setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+    try {
+      const images = JSON.parse(product.images);
+      if (!Array.isArray(images) || images.length === 0) return;
+      setCurrentImageIndex((prev) =>
+        prev === images.length - 1 ? 0 : prev + 1
+      );
+    } catch (error) {
+      console.error("Error parsing images:", error);
+    }
   };
 
   const prevImage = () => {
     if (!product || !product.images) return;
-    const images = JSON.parse(product.images);
-    setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+    try {
+      const images = JSON.parse(product.images);
+      if (!Array.isArray(images) || images.length === 0) return;
+      setCurrentImageIndex((prev) =>
+        prev === 0 ? images.length - 1 : prev - 1
+      );
+    } catch (error) {
+      console.error("Error parsing images:", error);
+    }
   };
 
   const selectImage = (index) => {
-    setCurrentImageIndex(index);
+    if (!product || !product.images) return;
+    try {
+      const images = JSON.parse(product.images);
+      if (!Array.isArray(images) || index >= images.length) return;
+      setCurrentImageIndex(index);
+    } catch (error) {
+      console.error("Error parsing images:", error);
+    }
   };
 
   const inputHandle = (e) => {
@@ -102,9 +137,38 @@ const Detail = () => {
     return <div className="detail-error">Product not found</div>;
   }
 
-  const productImages = product.images
-    ? JSON.parse(product.images)
-    : [product.thumbnail];
+  // Parse images after product is loaded
+  let productImages = [product.thumbnail]; // Default fallback
+  try {
+    if (product.images) {
+      const parsedImages = JSON.parse(product.images);
+      if (Array.isArray(parsedImages) && parsedImages.length > 0) {
+        productImages = parsedImages;
+      }
+    }
+  } catch (error) {
+    console.error("Error parsing product images:", error);
+    // Keep the default fallback
+  }
+
+  // Parse ingredients after product is loaded
+  let productIngredients = [];
+  try {
+    if (product.ingredients) {
+      const parsedIngredients = JSON.parse(product.ingredients);
+      if (Array.isArray(parsedIngredients)) {
+        productIngredients = parsedIngredients;
+      }
+    }
+  } catch (error) {
+    console.error("Error parsing product ingredients:", error);
+    productIngredients = [];
+  }
+
+  // Get recommended products (same type, excluding current product)
+  const recommendedProducts = allProducts
+    .filter((p) => p.type === product.type && p.id !== product.id)
+    .slice(0, 8);
 
   return (
     <div className="detail-container">
@@ -179,6 +243,20 @@ const Detail = () => {
               +
             </button>
           </div>
+          {productIngredients.length > 0 ? (
+            <div className="detail-ingredient-selector">
+              <h3>Ingredient</h3>
+              <div className="detail-ingredient-layout">
+                <ul>
+                  {productIngredients.map((ingredient, index) => (
+                    <li key={index}>{ingredient}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ) : (
+            <></>
+          )}
           <div className="detail-actions">
             <button
               className="detail-add-to-cart-btn"
@@ -189,6 +267,54 @@ const Detail = () => {
           </div>
         </div>
       </div>
+
+      {recommendedProducts.length > 0 && (
+        <div className="recommended-section">
+          <h2 className="recommended-title">You Might Also Like</h2>
+          <p className="recommended-description">
+            Discover more amazing products from our collection
+          </p>
+          <div className="recommended-products">
+            {recommendedProducts.map((recProduct) => (
+              <div className="recommended-card" key={recProduct.id}>
+                <div className="recommended-image-container">
+                  <img
+                    className="recommended-image"
+                    src={recProduct.thumbnail}
+                    alt={recProduct.name}
+                  />
+                  <div className="recommended-overlay">
+                    <button className="recommended-heart-btn">
+                      <FontAwesomeIcon
+                        icon={faHeart}
+                        style={{ color: "white", fontSize: "1.2rem" }}
+                      />
+                    </button>
+                  </div>
+                </div>
+                <div className="recommended-info">
+                  <h3 className="recommended-name">{recProduct.name}</h3>
+                  <p className="recommended-price">${recProduct.price}</p>
+                  <div className="recommended-actions">
+                    <NavLink
+                      to={`/detail/${recProduct.id}`}
+                      className="recommended-detail-btn"
+                    >
+                      View
+                    </NavLink>
+                    <button
+                      className="recommended-add-btn"
+                      onClick={() => addToCart(recProduct)}
+                    >
+                      Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
