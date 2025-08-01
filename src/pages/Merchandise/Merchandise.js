@@ -72,7 +72,17 @@ const Merchandise = () => {
                             {product.description}
                           </p>
                         </div>
-                        <div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "flex-end",
+                            marginLeft: "0.5rem",
+                            height: "100%",
+                            justifyContent: "space-between",
+                            padding: "0.5rem 0 1rem 0",
+                          }}
+                        >
                           <FontAwesomeIcon
                             icon={faHeart}
                             style={{
