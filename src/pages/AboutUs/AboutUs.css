@@ -1,252 +1,255 @@
 .aboutus-container {
   background: var(--secondary-background-color);
   min-height: 100vh;
-  padding: 4rem 0;
+  padding: 2rem 0;
 }
 
 .au-root {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 3.5vw;
+  padding: 0 2rem;
 }
 
 .au-title {
   text-align: center;
-  font-size: 2.25rem;
-  font-weight: 600;
+  font-size: 2.5rem;
+  font-weight: 700;
   color: var(--primary-text-color);
-  margin-top: 1rem;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
   font-family: 'Segoe UI', Arial, sans-serif;
 }
 
 .au-subtitle {
   text-align: center;
   color: var(--secondary-text-color);
-  font-size: 1.125rem;
-  margin-top: 0.5rem;
-  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  margin-top: 0;
+  margin-bottom: 3rem;
+  font-weight: 400;
 }
 
 .au-main-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 56px;
+  gap: 4rem;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 80px;
+  margin-bottom: 4rem;
 }
+
 .au-story-col, .au-img-col {
   flex: 1 1 0;
-  max-width: 50%;
+  max-width: 48%;
   min-width: 0;
 }
+
 .au-img-col {
   display: flex;
   align-items: center;
   justify-content: flex-end;
 }
+
 .au-main-img {
   width: 100%;
-  max-width: 540px;
-  min-width: 320px;
-  border-radius: 24px;
-  box-shadow: 0 8px 32px rgba(183, 123, 59, 0.18);
+  max-width: 520px;
+  min-width: 300px;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
   object-fit: cover;
   margin-right: 0;
 }
+
 .au-story-title {
-  font-size: 2rem;
+  font-size: 1.8rem;
   color: var(--primary-text-color);
-  margin-bottom: 18px;
-  font-weight: bold;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
   font-family: "Segoe UI", Arial, sans-serif;
   text-align: left;
 }
+
 .au-story-text {
   color: var(--primary-text-color);
-  font-size: 1.15rem;
-  line-height: 1.7;
-  margin-bottom: 18px;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
   font-family: "Segoe UI", Arial, sans-serif;
   text-align: left;
   letter-spacing: 0.01em;
 }
+
 .au-features-row {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 32px;
+  gap: 2rem;
   justify-items: center;
-  margin: 60px 0 44px 0;
+  margin: 3rem 0 3rem 0;
 }
-@media (max-width: 1100px) {
-  .au-features-row {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
-  }
-}
-@media (max-width: 700px) {
-  .au-features-row {
-    grid-template-columns: 1fr;
-    gap: 18px;
-  }
-}
+
 .au-feature-card {
   width: 100%;
-  max-width: 280px;
+  max-width: 260px;
   background: #fff;
-  border-radius: var(--faq-card-radius, 24px);
-  box-shadow: var(--faq-card-shadow, 0 4px 24px 0 rgba(0,0,0,0.08));
-  padding: 36px 18px 24px 18px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 0 auto;
+  transition: transform 0.2s ease;
+}
+
+.au-feature-card:hover {
+  transform: translateY(-2px);
 }
 
 .au-feature-icon {
-  font-size: 2.6rem !important;
-  margin-bottom: 16px;
+  font-size: 2.2rem !important;
+  margin-bottom: 1rem;
   color: #e6a23c !important;
 }
 
 .au-feature-title {
-  font-weight: bold;
+  font-weight: 600;
   color: var(--primary-text-color);
-  font-size: 1.35rem;
-  margin-bottom: 8px;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
   font-family: "Segoe UI", Arial, sans-serif;
 }
 
 .au-feature-desc {
   color: var(--primary-text-color);
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   font-family: "Segoe UI", Arial, sans-serif;
+  line-height: 1.4;
 }
 
 .au-commitment-row {
   background: #fff;
-  border-radius: var(--faq-card-radius, 24px);
-  box-shadow: var(--faq-card-shadow, 0 4px 24px 0 rgba(0,0,0,0.08));
-  padding: 56px 36px 48px 36px;
-  margin: 48px auto 0 auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  padding: 3rem 2rem 2.5rem 2rem;
+  margin: 2rem auto 0 auto;
   width: 100%;
   max-width: 1200px;
 }
-@media (max-width: 900px) {
-  .au-commitment-row {
-    padding: 24px 8px 18px 8px;
-    border-radius: 16px;
-    margin: 18px auto 0 auto;
-    max-width: 98vw;
-  }
-}
-@media (max-width: 767px) {
-  .au-commitment-cards {
-    grid-template-columns: 1fr;
-    gap: 24px;
-    justify-items: center;
-  }
-}
+
 .au-commitment-cols {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 48px;
+  gap: 3rem;
   width: 100%;
   margin: 0 auto;
   padding: 0;
   justify-items: center;
 }
-@media (max-width: 900px) {
-  .au-commitment-cols {
-    grid-template-columns: 1fr;
-    gap: 32px;
-    justify-items: center;
-  }
-  .au-commitment-col {
-    max-width: 340px;
-    width: 100%;
-    margin: 0 auto;
-  }
-}
+
 .au-commitment-col {
   width: 100%;
-  max-width: 340px;
+  max-width: 320px;
   text-align: center;
   margin: 0;
   display: block;
 }
+
 .au-commitment-title {
   text-align: center;
   width: 100%;
-  margin: 0 auto 32px auto;
+  margin: 0 auto 2rem auto;
   color: var(--primary-text-color);
-  font-size: 2.2rem;
-  font-weight: bold;
+  font-size: 2rem;
+  font-weight: 600;
   font-family: 'Segoe UI', Arial, sans-serif;
 }
 
 .au-commitment-col-title {
-  font-weight: bold;
+  font-weight: 600;
   color: var(--primary-text-color);
-  font-size: 1.45rem;
-  margin-bottom: 16px;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
   font-family: "Segoe UI", Arial, sans-serif;
 }
+
 .au-commitment-col-desc {
-  color: #7c4a03;
-  font-size: 1.13rem;
+  color: var(--secondary-text-color);
+  font-size: 1rem;
   font-family: 'Segoe UI', Arial, sans-serif;
-  line-height: 1.7;
+  line-height: 1.6;
 }
+
 /* Xóa style card nhỏ */
-.au-commitment-card, .au-commitment-card-title, .au-commitment-card-desc { display: none !important; }
-
-.au-feature-card, .au-commitment-col {
-  width: 100%;
-  max-width: 340px;
-  margin: 0 auto;
+.au-commitment-card, .au-commitment-card-title, .au-commitment-card-desc { 
+  display: none !important; 
 }
 
-.au-features-row, .au-commitment-cols {
-  gap: 48px;
-}
+/* Responsive Design */
 @media (max-width: 1100px) {
   .au-features-row {
     grid-template-columns: repeat(2, 1fr);
-    gap: 32px;
+    gap: 1.5rem;
   }
-}
-@media (max-width: 900px) {
+  
   .au-commitment-cols {
-    grid-template-columns: 1fr;
-    gap: 32px;
-    justify-items: center;
-  }
-  .au-feature-card, .au-commitment-col {
-    max-width: 340px;
-    width: 100%;
-    margin: 0 auto;
-  }
-}
-@media (max-width: 700px) {
-  .au-features-row {
-    grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 2rem;
   }
 }
 
 @media (max-width: 900px) {
   .au-main-row {
     flex-direction: column;
-    gap: 24px;
-    margin-bottom: 40px;
+    gap: 2rem;
+    margin-bottom: 2rem;
   }
+  
   .au-story-col, .au-img-col {
     max-width: 100%;
     flex: 1 1 100%;
   }
+  
   .au-main-img {
     max-width: 100%;
+  }
+  
+  .au-commitment-cols {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    justify-items: center;
+  }
+  
+  .au-commitment-col {
+    max-width: 400px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  
+  .au-commitment-row {
+    padding: 2rem 1.5rem 1.5rem 1.5rem;
+    margin: 1rem auto 0 auto;
+  }
+}
+
+@media (max-width: 700px) {
+  .au-features-row {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .au-feature-card {
+    max-width: 300px;
+  }
+  
+  .au-root {
+    padding: 0 1rem;
+  }
+  
+  .au-title {
+    font-size: 2rem;
+  }
+  
+  .au-subtitle {
+    font-size: 1rem;
   }
 }
