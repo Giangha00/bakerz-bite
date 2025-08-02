@@ -165,7 +165,6 @@ const Detail = () => {
     productIngredients = [];
   }
 
-  // Get recommended products (same type, excluding current product)
   const recommendedProducts = allProducts
     .filter((p) => p.type === product.type && p.id !== product.id)
     .slice(0, 8);
