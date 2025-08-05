@@ -7,7 +7,7 @@ import { NavLink } from "react-router-dom";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import UserContext from "../../context/context";
-import { faHome } from "@fortawesome/free-solid-svg-icons";
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -80,6 +80,14 @@ export default function Navbar() {
           </li> */}
         </ul>
         <div className="navbar-right">
+          <div className="navbar-cart">
+            <NavLink to="/favorite">
+              <FontAwesomeIcon
+                icon={faHeart}
+                style={{ width: "20px", height: "20px", color: "#ffde89" }}
+              />
+            </NavLink>
+          </div>
           <div className="navbar-cart">
             <NavLink to="/cart">
               <img src={cart} alt="cart" />

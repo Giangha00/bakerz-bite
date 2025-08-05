@@ -9,6 +9,7 @@ const URL = {
   FEED_BACK: "/feed_back.php",
   CREATE_FEED_BACK: "/create_feed_back.php",
   GET_PRODUCTS: "/products.php",
+  FAVORITE_PRODUCTS: "/favorite_products.php",
 };
 
 export default URL;
