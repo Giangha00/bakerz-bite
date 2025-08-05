@@ -11,12 +11,18 @@ import { NavLink } from "react-router-dom";
 const Merchandise = () => {
   const { state, dispatch } = useContext(UserContext);
   const [products, setProducts] = useState([]);
+  const [favorites, setFavorites] = useState({});
 
   const getProducts = async () => {
     try {
       const response = await axios_instance.get(URL.GET_PRODUCTS);
       const data = await response.data.data;
       setProducts(data);
+      const favoriteMap = {};
+      data.forEach((p) => {
+        favoriteMap[p.id] = Number(p.favorite) === 1;
+      });
+      setFavorites(favoriteMap);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
@@ -40,6 +46,17 @@ const Merchandise = () => {
     });
   };
 
+  const toggleFavorite = async (product) => {
+    try {
+      await axios_instance.post(URL.FAVORITE_PRODUCTS, {
+        product_id: product.id,
+      });
+      getProducts();
+    } catch (error) {
+      console.error("Error updating favorite:", error);
+    }
+  };
+
   return (
     <>
       <div className="merchandise-content">
@@ -54,9 +71,6 @@ const Merchandise = () => {
               if (product.type === "Merchandise") {
                 return (
                   <div className="merchandise-cart" key={product.id}>
-                    {/* <p className="merchandise-cart-price">
-                      Price: ${product.price}
-                    </p> */}
                     <img
                       className="merchandise-cart-img"
                       src={product.thumbnail}
@@ -82,9 +96,12 @@ const Merchandise = () => {
                             justifyContent: "space-between",
                             padding: "0.5rem 0 1rem 0",
                           }}
+                          onClick={() => toggleFavorite(product)}
                         >
                           <FontAwesomeIcon
-                            icon={faHeart}
+                            icon={
+                              favorites[product.id] ? faHeart : faHeartSolid
+                            }
                             style={{
                               color: "red",
                               fontSize: "1.5rem",
