@@ -16,6 +16,7 @@ import STATE from "./context/initState";
 import reducer from "./context/reducer";
 import RunTime from "./components/RunTime";
 import Footer from "./components/Footer";
+import Favorite from "./pages/Favorite/Favorite";
 
 function App() {
   let storage = localStorage.getItem("state");
@@ -44,6 +45,7 @@ function App() {
             <Route path="/feed_back" element={<FeedBack />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/detail/:id" element={<Detail />} />
+            <Route path="/favorite" element={<Favorite />} />
           </Routes>
         </div>
         <Footer />
