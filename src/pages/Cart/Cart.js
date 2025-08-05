@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useContext, useState } from "react";
 import UserContext from "../../context/context";
 import { MdOutlineShoppingCartCheckout } from "react-icons/md";
+import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 const Cart = () => {
   const { state, dispatch } = useContext(UserContext);
@@ -14,6 +15,12 @@ const Cart = () => {
       type: "INCREASE_QTY",
       payload: id,
     });
+  };
+  const options = {
+    clientId:
+      "AYGp_looQ2hRs8pyN1u0NRts_v6-AboGS9sLSNL_-yvL1YOVdPBDG8LtL19OdYBdhkjVHLx8MNKepzMS",
+    currency: "USD",
+    intent: "capture",
   };
 
   const decreaseQty = (id) => {
