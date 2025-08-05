@@ -6,6 +6,8 @@ import { useContext, useState } from "react";
 import UserContext from "../../context/context";
 import { MdOutlineShoppingCartCheckout } from "react-icons/md";
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
+import axios_instance from "../../ult/axios_instance";
+import URL from "../../ult/url";
 
 const Cart = () => {
   const { state, dispatch } = useContext(UserContext);
@@ -16,17 +18,48 @@ const Cart = () => {
       payload: id,
     });
   };
+
+  const decreaseQty = (id) => {
+    dispatch({
+      type: "DECREASE_QTY",
+      payload: id,
+    });
+  };
   const options = {
     clientId:
       "AYGp_looQ2hRs8pyN1u0NRts_v6-AboGS9sLSNL_-yvL1YOVdPBDG8LtL19OdYBdhkjVHLx8MNKepzMS",
     currency: "USD",
     intent: "capture",
   };
-
-  const decreaseQty = (id) => {
-    dispatch({
-      type: "DECREASE_QTY",
-      payload: id,
+  const [order, setOrder] = useState({
+    id: null,
+    name: "",
+    telephone: "",
+    address: "",
+    cart: state.cart,
+  });
+  const create_order = async (value, actions) => {
+    // call api create order
+    const rs = await axios_instance.post(URL.CREATE_ORDER, { order: order });
+    const data = rs.data.data;
+    setOrder({ ...order, id: data.order_id, grand_total: data.grand_total });
+    return actions.order.create({
+      purchase_units: [
+        {
+          amount: {
+            value: data.grand_total,
+          },
+        },
+      ],
+    });
+  };
+  const on_approve = async (value, actions) => {
+    const rs = await axios_instance.post(URL.UPDATE_ORDER, { id: order.id });
+    if (rs.data.status) {
+      alert("Thanh toán thành công!");
+    }
+    return actions.order.capture().then(function (details) {
+      console.log("transaction completed by" + details.payer.name.given_name);
     });
   };
 
@@ -153,10 +186,12 @@ const Cart = () => {
                     <p>Subtotal : {subtotal}$</p>
                   </div>
                   <button className="order-checkout">
-                    <MdOutlineShoppingCartCheckout
-                      style={{ width: "20px", height: "20px" }}
-                    />
-                    Proceed to Checkout
+                    <PayPalScriptProvider options={options}>
+                      <PayPalButtons
+                        createOrder={create_order}
+                        onApprove={on_approve}
+                      />
+                    </PayPalScriptProvider>
                   </button>
                 </div>
               </div>
