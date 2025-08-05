@@ -92,7 +92,7 @@
 .cu-map-box {
   background: linear-gradient(135deg, #fff0e0, #ffe0b3);
   border-radius: 10px;
-  padding: 38px 10px;
+  /* padding: 38px 10px; */
   text-align: center;
   flex: 1;
 }
