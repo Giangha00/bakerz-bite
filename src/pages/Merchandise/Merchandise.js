@@ -100,7 +100,7 @@ const Merchandise = () => {
                         >
                           <FontAwesomeIcon
                             icon={
-                              favorites[product.id] ? faHeart : faHeartSolid
+                              favorites[product.id] ? faHeartSolid : faHeart
                             }
                             style={{
                               color: "red",

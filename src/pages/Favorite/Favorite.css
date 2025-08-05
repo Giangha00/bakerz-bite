@@ -1,0 +1,64 @@
+.favorite-page {
+  padding: 24px;
+  max-width: 100%;
+  margin: 0 auto;
+  background: var(--secondary-background-color);
+}
+
+.favorite-title {
+  font-size: 2rem;
+  margin-bottom: 24px;
+  text-align: center;
+  color: #3d2c1e;
+}
+
+.favorite-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+}
+
+.favorite-card {
+  background: #fff8f0;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(60, 40, 20, 0.08);
+  padding: 16px;
+  text-align: center;
+  transition: box-shadow 0.2s;
+}
+
+.favorite-card:hover {
+  box-shadow: 0 4px 16px rgba(60, 40, 20, 0.16);
+}
+
+.favorite-img {
+  width: 100%;
+  max-width: 140px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.favorite-name {
+  font-size: 1.1rem;
+  color: #5a3b1b;
+  font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .favorite-title {
+    font-size: 1.3rem;
+  }
+  .favorite-list {
+    gap: 14px;
+  }
+  .favorite-card {
+    padding: 10px;
+  }
+  .favorite-img {
+    max-width: 100px;
+    height: 80px;
+  }
+}
