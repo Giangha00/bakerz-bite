@@ -5,9 +5,11 @@ import img1 from '../../assets/images/homepic1.jpeg';
 import img2 from '../../assets/images/homepic2.png';
 import img3 from '../../assets/images/homepic3.jpeg';
 import img4 from '../../assets/images/homepic4.jpeg';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
+import UserContext from '../../context/context';
 
 const Home = () => {
+  const { dispatch } = useContext(UserContext);
   const products = [
     { src: img1, name: 'Artisan Cakes', desc: 'Handcrafted with love' },
     { src: img2, name: 'Fresh Pastries', desc: 'Baked daily' },
@@ -21,8 +23,8 @@ const Home = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [maxPrice, setMaxPrice] = useState(100);
   const [sortOption, setSortOption] = useState('default');
-  const [minPrice, setMinPrice] = useState(0); 
-  const [selectedType, setSelectedType] = useState(''); 
+  const [minPrice, setMinPrice] = useState(0);
+  const [selectedType, setSelectedType] = useState('');
 
   const fetchProducts = useCallback(async () => {
     try {
@@ -32,9 +34,8 @@ const Home = () => {
       const data = await response.json();
       if (data.status && data.data) {
         const sortedProducts = data.data
-        .filter(product => [1, 2, 3].includes(parseInt(product.category_id)))
+          .filter(product => [1, 2, 3].includes(parseInt(product.category_id)))
           .sort((a, b) => parseInt(a.id) - parseInt(b.id))
-      
           .map(product => ({
             ...product,
             subImages: [
@@ -87,23 +88,42 @@ const Home = () => {
     setFilteredProducts(filtered);
   }, [searchTerm, minPrice, maxPrice, sortOption, apiProducts, selectedType]);
 
-  const handleAddToCart = async (productId) => {
-    try {
+  const addToCart = (product) => {
+  dispatch({
+    type: "ADD_TO_CART",
+    payload: {
+      id: product.id,
+      category_id: product.category_id,
+      name: product.name,
+      qty: 1, // Mỗi lần click sẽ thêm 1 sản phẩm
+      image: product.thumbnail,
+      price: product.price,
+    },
+  });
+};
+
+const handleAddToCart = async (productId) => {
+  try {
+    const product = apiProducts.find(p => p.id === productId);
+    if (product) {
+      addToCart(product);
+      
+      // Gửi yêu cầu cập nhật số lượng lên server
       const response = await fetch('http://localhost:8888/update_order.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `product_id=${productId}&quantity=1`
+        body: `product_id=${productId}&quantity=1&action=increase` // Thêm action=increase
       });
+      
       const result = await response.json();
-      if (result.success) {
-        alert('Product added to cart!');
-      } else {
-        alert('Failed to add product to cart.');
+      if (!result.success) {
+        console.error('Failed to update server cart');
       }
-    } catch (error) {
-      console.error('Error adding to cart:', error);
     }
-  };
+  } catch (error) {
+    console.error('Error adding to cart:', error);
+  }
+};
 
   const handlePriceChange = (e) => {
     const value = parseInt(e.target.value);

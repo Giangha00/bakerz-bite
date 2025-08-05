@@ -1,3 +1,4 @@
+/* ============= PHẦN GIỮ NGUYÊN ============= */
 .home-container {
   position: relative;
   overflow: hidden;
@@ -373,22 +374,6 @@
   font-style: italic;
 }
 
-.api-product-info button {
-  margin-top: 10px;
-  padding: 8px 15px;
-  background: linear-gradient(135deg, #f4a261, #e9c46a);
-  border: none;
-  border-radius: 15px;
-  color: white;
-  cursor: pointer;
-  width: 100%;
-  transition: background 0.3s ease;
-}
-
-.api-product-info button:hover {
-  background: linear-gradient(135deg, #e76f51, #d4a017);
-}
-
 .home-container {
   background-color: #fed7aa;
 }
@@ -414,12 +399,12 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   position: relative;
   text-align: center;
-  max-height: 90vh; /* Giới hạn chiều cao tối đa là 90% viewport height */
-  overflow-y: auto; /* Thêm cuộn dọc khi nội dung vượt quá */
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .popup-content.expanded {
-  height: auto; /* Loại bỏ chiều cao cố định, tự điều chỉnh */
+  height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -468,7 +453,7 @@
   padding: 10px;
   text-align: left;
   flex-grow: 1;
-  overflow-y: auto; /* Thêm cuộn trong details nếu cần */
+  overflow-y: auto;
 }
 
 .popup-details h2 {
@@ -486,3 +471,91 @@
   margin-bottom: 10px;
 }
 
+/* ============= PHẦN THÊM MỚI ============= */
+
+/* Thêm min-height để đảm bảo footer không bị đẩy lên */
+.home-container {
+  min-height: 100vh;
+}
+
+/* Thêm padding-bottom cho home-page để tạo khoảng trống cho footer */
+.home-page {
+  padding-bottom: 100px;
+}
+
+
+.api-product-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: auto; 
+}
+
+
+.view-details-link {
+  display: inline-block;
+  padding: 10px 15px;
+  background: linear-gradient(#d97706, #ea580c);
+  color: white;
+  border-radius: 15px;
+  text-decoration: none;
+  text-align: center;
+  flex: 1;
+  transition: all 0.3s ease;
+  font-weight: bold;
+}
+
+.view-details-link:hover {
+  background: linear-gradient(135deg, #e76f51, #d4a017);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+
+/* Style mới cho nhóm nút */
+.api-product-buttons {
+  display: flex;
+  gap: 12px; /* Tăng khoảng cách giữa 2 nút */
+  margin-top: auto;
+  padding: 0 10px 10px; /* Thêm padding dưới cùng */
+}
+
+
+.view-details-link {
+  display: inline-block;
+  padding: 12px 5px; /* Điều chỉnh padding */
+  background: linear-gradient(#d97706, #ea580c);
+  color: white;
+  border-radius: 12px; /* Bo góc nhẹ hơn */
+  text-decoration: none;
+  text-align: center;
+  flex: 1; /* Chiếm không gian bằng nhau */
+  transition: all 0.3s ease;
+  font-weight: bold;
+  font-size: 14px; 
+  min-width: 120px; /* Độ rộng tối thiểu */
+}
+
+/* Điều chỉnh nút Add to Cart */
+.api-product-info button {
+  margin-top: 0;
+  padding: 12px 5px; /* Đồng bộ với nút View Details */
+  background: linear-gradient(#d97706, #ea580c);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+  flex: 1; /* Chiếm không gian bằng nhau */
+  transition: all 0.3s ease;
+  font-weight: bold;
+  font-size: 14px;
+  min-width: 120px;
+}
+
+/* Hiệu ứng hover cho cả 2 nút */
+.view-details-link:hover,
+.api-product-info button:hover {
+  background: linear-gradient(135deg, #e76f51, #d4a017);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
