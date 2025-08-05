@@ -22,6 +22,32 @@ const reducer = (state, action) => {
       }
       return { ...state, cart: newCart };
     }
+    case "INCREASE_QTY": {
+      const newCart = state.cart.map((item) =>
+        item.id === action.payload
+          ? {
+              ...item,
+              qty: item.qty + 1,
+              total_price: (item.qty + 1) * item.price,
+            }
+          : item
+      );
+      return { ...state, cart: newCart };
+    }
+
+    case "DECREASE_QTY": {
+      const newCart = state.cart.map((item) =>
+        item.id === action.payload && item.qty > 1
+          ? {
+              ...item,
+              qty: item.qty - 1,
+              total_price: (item.qty - 1) * item.price,
+            }
+          : item
+      );
+      return { ...state, cart: newCart };
+    }
+
     case "UPDATE_CART":
       return {
         ...state,
@@ -30,7 +56,7 @@ const reducer = (state, action) => {
     case "REMOVE_CART":
       return {
         ...state,
-        cart: state.cart.filter((p) => onabort.id !== action.payload),
+        cart: state.cart.filter((p) => p.id !== action.payload),
       };
     case "CLEAR_CART": {
       return { ...state, cart: [] };
