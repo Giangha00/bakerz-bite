@@ -5,8 +5,8 @@ import URL from "../../ult/url";
 import UserContext from "../../context/context";
 import "./Detail.css";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,
   faChevronRight,
@@ -22,6 +22,7 @@ const Detail = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [buyQty, setBuyQty] = useState(1);
   const [allProducts, setAllProducts] = useState([]);
+  const [favorite, setFavorites] = useState({});
 
   const getProductDetail = async () => {
     try {
@@ -125,6 +126,31 @@ const Detail = () => {
     }
   };
 
+  const toggleFavorite = async (targetProduct) => {
+    try {
+      await axios_instance.post(URL.FAVORITE_PRODUCTS, {
+        product_id: targetProduct.id,
+      });
+
+      if (targetProduct.id === product.id) {
+        setProduct({
+          ...product,
+          favorite: product.favorite === 1 ? 0 : 1,
+        });
+      }
+
+      setAllProducts((prev) =>
+        prev.map((p) =>
+          p.id === targetProduct.id
+            ? { ...p, favorite: p.favorite === 1 ? 0 : 1 }
+            : p
+        )
+      );
+    } catch (error) {
+      console.error("Error updating favorite:", error);
+    }
+  };
+
   if (loading) {
     return <div className="detail-loading">Loading...</div>;
   }
@@ -137,8 +163,7 @@ const Detail = () => {
     return <div className="detail-error">Product not found</div>;
   }
 
-  // Parse images after product is loaded
-  let productImages = [product.thumbnail]; // Default fallback
+  let productImages = [product.thumbnail];
   try {
     if (product.images) {
       const parsedImages = JSON.parse(product.images);
@@ -148,10 +173,8 @@ const Detail = () => {
     }
   } catch (error) {
     console.error("Error parsing product images:", error);
-    // Keep the default fallback
   }
 
-  // Parse ingredients after product is loaded
   let productIngredients = [];
   try {
     if (product.ingredients) {
@@ -215,16 +238,20 @@ const Detail = () => {
           <p className="detail-description">{product.description}</p>
           <div className="detail-price-section">
             <span className="detail-price">${product.price}</span>
-            <div className="detail-favorite">
+            <button
+              className="detail-favorite"
+              type="button"
+              onClick={() => toggleFavorite(product)}
+            >
               <FontAwesomeIcon
-                icon={faHeart}
+                icon={Number(product.favorite) === 1 ? faHeartSolid : faHeart}
                 style={{
                   color: "red",
                   fontSize: "1.3rem",
                   cursor: "pointer",
                 }}
               />
-            </div>
+            </button>
           </div>
           <div className="detail-qty-selector">
             <button className="qty-btn" onClick={decreaseQty}>
@@ -283,10 +310,25 @@ const Detail = () => {
                     alt={recProduct.name}
                   />
                   <div className="recommended-overlay">
-                    <button className="recommended-heart-btn">
+                    <button
+                      className="recommended-heart-btn"
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        toggleFavorite(recProduct);
+                      }}
+                    >
                       <FontAwesomeIcon
-                        icon={faHeart}
-                        style={{ color: "white", fontSize: "1.2rem" }}
+                        icon={
+                          Number(recProduct.favorite) === 1
+                            ? faHeartSolid
+                            : faHeart
+                        }
+                        style={{
+                          color:
+                            Number(recProduct.favorite) === 1 ? "red" : "white",
+                          fontSize: "1.2rem",
+                        }}
                       />
                     </button>
                   </div>
@@ -299,13 +341,13 @@ const Detail = () => {
                       to={`/detail/${recProduct.id}`}
                       className="recommended-detail-btn"
                     >
-                      View
+                      View Detail
                     </NavLink>
                     <button
                       className="recommended-add-btn"
                       onClick={() => addToCart(recProduct)}
                     >
-                      Add
+                      Add to cart
                     </button>
                   </div>
                 </div>
