@@ -7,18 +7,24 @@ import img3 from "../../assets/images/homepic3.jpeg";
 import img4 from "../../assets/images/homepic4.jpeg";
 import React, { useState, useEffect, useCallback, useContext } from "react";
 import UserContext from "../../context/context";
+import { TbChefHat } from "react-icons/tb";
+import { PiMedalLight } from "react-icons/pi";
+import { CiClock2, CiFilter } from "react-icons/ci";
+import { FaSortAmountUpAlt } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
 import axios_instance from "../../ult/axios_instance";
+import URL from "../../ult/url";
 
 const Home = () => {
   const { dispatch } = useContext(UserContext);
-  const products = [
-    { src: img1, name: "Artisan Cakes", desc: "Handcrafted with love" },
-    { src: img2, name: "Fresh Pastries", desc: "Baked daily" },
-    { src: img3, name: "Gourmet Cookies", desc: "Irresistible flavors" },
-    { src: img4, name: "Specialty Pies", desc: "Unique recipes" },
-  ];
+  // const products = [
+  //   { src: img1, name: "Artisan Cakes", desc: "Handcrafted with love" },
+  //   { src: img2, name: "Fresh Pastries", desc: "Baked daily" },
+  //   { src: img3, name: "Gourmet Cookies", desc: "Irresistible flavors" },
+  //   { src: img4, name: "Specialty Pies", desc: "Unique recipes" },
+  // ];
 
   const [loading, setLoading] = useState(true);
   const [apiProducts, setApiProducts] = useState([]);
@@ -28,36 +34,12 @@ const Home = () => {
   const [sortOption, setSortOption] = useState("default");
   const [minPrice, setMinPrice] = useState(0);
   const [selectedType, setSelectedType] = useState("");
-
-  const getProducts = async () => {
-    try {
-      const response = await axios_instance.get(URL.GET_PRODUCTS);
-      const data = await response.data.data;
-      setProducts(data);
-      const favoriteMap = {};
-      data.forEach((p) => {
-        favoriteMap[p.id] = Number(p.favorite) === 1;
-      });
-      setFavorites(favoriteMap);
-    } catch (error) {
-      console.error("Error fetching products:", error);
-    }
-  };
-  const toggleFavorite = async (product) => {
-    try {
-      await axios_instance.post(URL.FAVORITE_PRODUCTS, {
-        product_id: product.id,
-      });
-      getProducts();
-    } catch (error) {
-      console.error("Error updating favorite:", error);
-    }
-  };
+  const [favorite, setFavorites] = useState({});
 
   const fetchProducts = useCallback(async () => {
     try {
       const response = await fetch(
-        `http://localhost/api/products.php?min_price=${minPrice}&max_price=${maxPrice}`
+        `http://localhost:8888/api/products.php?min_price=${minPrice}&max_price=${maxPrice}`
       );
       if (!response.ok) throw new Error("Network response was not ok");
 
@@ -82,6 +64,11 @@ const Home = () => {
           }));
         setApiProducts(sortedProducts);
         setFilteredProducts(sortedProducts);
+        const favoriteMap = {};
+        data.data.forEach((p) => {
+          favoriteMap[p.id] = Number(p.favorite) === 1;
+        });
+        setFavorites(favoriteMap);
       }
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -125,41 +112,18 @@ const Home = () => {
     setFilteredProducts(filtered);
   }, [searchTerm, minPrice, maxPrice, sortOption, apiProducts, selectedType]);
 
-  const addToCart = (product) => {
+  const addToCart = (p) => {
     dispatch({
       type: "ADD_TO_CART",
       payload: {
-        id: product.id,
-        category_id: product.category_id,
-        name: product.name,
-        qty: 1, // Mỗi lần click sẽ thêm 1 sản phẩm
-        image: product.thumbnail,
-        price: product.price,
+        id: p.id,
+        category_id: p.category_id,
+        name: p.name,
+        qty: 1,
+        image: p.thumbnail,
+        price: p.price,
       },
     });
-  };
-
-  const handleAddToCart = async (productId) => {
-    try {
-      const product = apiProducts.find((p) => p.id === productId);
-      if (product) {
-        addToCart(product);
-
-        // Gửi yêu cầu cập nhật số lượng lên server
-        const response = await fetch("http://localhost:8888/update_order.php", {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: `product_id=${productId}&quantity=1&action=increase`, // Thêm action=increase
-        });
-
-        const result = await response.json();
-        if (!result.success) {
-          console.error("Failed to update server cart");
-        }
-      }
-    } catch (error) {
-      console.error("Error adding to cart:", error);
-    }
   };
 
   const handlePriceChange = (e) => {
@@ -178,181 +142,191 @@ const Home = () => {
 
   const uniqueTypes = [...new Set(apiProducts.map((product) => product.type))];
 
+  const toggleFavorite = async (product) => {
+    try {
+      await axios_instance.post(URL.FAVORITE_PRODUCTS, {
+        product_id: product.id,
+      });
+
+      setFavorites((prev) => ({
+        ...prev,
+        [product.id]: !prev[product.id],
+      }));
+    } catch (error) {
+      console.error("Error updating favorite:", error);
+    }
+  };
+
   return (
-    <div className="home-container">
-      <div
-        className="background-blur"
-        style={{ backgroundImage: `url(${backgroundImage})` }}
-      ></div>
-      <div className="home-page">
-        <section className="hero">
-          <div className="hero-content-container">
-            <div className="hero-content">
-              <h1>Welcome to Bakerz Bite</h1>
-              <div className="subtitle">Premium Bakery & Café</div>
-            </div>
+    <div className="home-page">
+      <div className="home-container">
+        <div className="home-container-overlay"></div>
+        <h1>Welcome to Bakerz Bite</h1>
+        <p>
+          Premium bakery & café specializing in artisan baked goods,
+          passionately made from the finest ingredients
+        </p>
+        <div className="home-container-medal">
+          <div className="home-container-medal__item">
+            <TbChefHat style={{ color: "#B45309", width: 24, height: 24 }} />
+            <p>300+ Products</p>
           </div>
-        </section>
-        <section className="stats">
+          <div className="home-container-medal__item">
+            <PiMedalLight style={{ color: "#B45309", width: 24, height: 24 }} />
+            <p>Premium Quality</p>
+          </div>
+          <div className="home-container-medal__item">
+            <CiClock2 style={{ color: "#B45309", width: 24, height: 24 }} />
+            <p>Fresh Daily</p>
+          </div>
+        </div>
+        <div className="home-container-button">
+          <button type="button">
+            <Link to="/contact_us">Contact us</Link>
+          </button>
+        </div>
+        <div></div>
+      </div>
+      <div className="home-product">
+        <h1>Our Delicious Products</h1>
+        <p>
+          Discover our wide range of premium baked goods, made fresh daily with
+          the finest ingredients
+        </p>
+        <div className="home-product-filter">
+          <input
+            type="text"
+            placeholder="🔍 Search products..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="search-input"
+          />
           <div
-            className="stat-item"
             style={{
-              animation: "fadeIn 1s ease-in-out",
-              transition: "transform 0.3s ease",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              fontSize: 15,
+              color: "#78350F",
+              gap: "0.5rem",
             }}
           >
-            100+ Recipes
+            <CiFilter style={{ color: "#B45309", width: 24, height: 24 }} />
+            Category:
+            <select
+              value={selectedType}
+              onChange={handleTypeChange}
+              className="type-select"
+            >
+              <option value="">All Types</option>
+              {uniqueTypes.map((type) => (
+                <option key={type} value={type}>
+                  {type}
+                </option>
+              ))}
+            </select>
           </div>
-          <div
-            className="stat-item"
-            style={{
-              animation: "fadeIn 1.2s ease-in-out",
-              transition: "transform 0.3s ease",
-            }}
-          >
-            50+ Varieties
+          <div className="price-filter">
+            <label>
+              Price:{" "}
+              <span className="price-value">
+                ${minPrice} - ${maxPrice}
+              </span>
+            </label>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={minPrice}
+              onChange={handlePriceChange}
+              className="price-slider"
+            />
           </div>
-          <div
-            className="stat-item"
-            style={{
-              animation: "fadeIn 1.4s ease-in-out",
-              transition: "transform 0.3s ease",
-            }}
-          >
-            500+ Happy Customers
+          <div className="sort-container">
+            <FaSortAmountUpAlt
+              style={{ color: "#B45309", width: 24, height: 24 }}
+            />
+            Sort:{" "}
+            <select
+              value={sortOption}
+              onChange={handleSortChange}
+              className="sort-select"
+            >
+              <option value="default">Sort by</option>
+              <option value="name-asc">Name (A-Z)</option>
+              <option value="name-desc">Name (Z-A)</option>
+              <option value="price-asc">Price (Low to High)</option>
+              <option value="price-desc">Price (High to Low)</option>
+            </select>
           </div>
-        </section>
-        <section className="products">
-          <div className="product-row">
-            {products.map((product, index) => (
-              <div className="product-card" key={index}>
-                <div className="product-image-container">
+        </div>
+      </div>
+      <div className="home-product-list">
+        {loading ? (
+          <p>Loading products...</p>
+        ) : filteredProducts.length > 0 ? (
+          <>
+            {filteredProducts.map((product) => (
+              <div key={product.id} className="home-product-item">
+                <div className="home-product-item-img">
                   <img
-                    src={product.src}
+                    src={product.thumbnail}
                     alt={product.name}
-                    className="product-image"
+                    onError={(e) => {
+                      e.target.src =
+                        "https://via.placeholder.com/300x200?text=Image+Not+Available";
+                    }}
                   />
                 </div>
-                <div className="product-content">
-                  <h3>{product.name}</h3>
-                  <p>{product.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="delicious-products">
-          <h2>Delicious Products</h2>
-          <p>Explore our wide range of freshly baked goods</p>
-          <div className="filter-options">
-            <div className="search-container">
-              <input
-                type="text"
-                placeholder="🔍 Search products..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="search-input"
-              />
-              <select
-                value={selectedType}
-                onChange={handleTypeChange}
-                className="type-select"
-              >
-                <option value="">All Types</option>
-                {uniqueTypes.map((type) => (
-                  <option key={type} value={type}>
-                    {type}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="price-filter-container">
-              <div className="price-filter">
-                <label>
-                  Price Range:{" "}
-                  <span className="price-value">
-                    ${minPrice} - ${maxPrice}
-                  </span>
-                </label>
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  value={minPrice}
-                  onChange={handlePriceChange}
-                  className="price-slider"
-                />
-              </div>
-            </div>
-            <div className="sort-container">
-              <select
-                value={sortOption}
-                onChange={handleSortChange}
-                className="sort-select"
-              >
-                <option value="default">Sort by</option>
-                <option value="name-asc">Name (A-Z)</option>
-                <option value="name-desc">Name (Z-A)</option>
-                <option value="price-asc">Price (Low to High)</option>
-                <option value="price-desc">Price (High to Low)</option>
-              </select>
-            </div>
-          </div>
-        </section>
-        <section className="api-products">
-          <h2>Our Bakery Collection</h2>
-          {loading ? (
-            <p>Loading products...</p>
-          ) : filteredProducts.length > 0 ? (
-            <div className="api-product-grid">
-              {filteredProducts.map((product) => (
-                <div key={product.id} className="api-product-card">
-                  <div className="api-product-image-container">
-                    <img
-                      src={product.thumbnail}
-                      alt={product.name}
-                      onError={(e) => {
-                        e.target.src =
-                          "https://via.placeholder.com/300x200?text=Image+Not+Available";
-                      }}
-                    />
-                  </div>
-                  <div className="api-product-info">
+                <div className="home-product-item-info">
+                  <div className="home-product-item-name">
                     <h3>{product.name}</h3>
-                    <p className="api-product-price">
-                      ${parseFloat(product.price).toFixed(2)}
-                    </p>
                     <FontAwesomeIcon
-                      icon={favorites[product.id] ? faHeartSolid : faHeart}
+                      icon={favorite[product.id] ? faHeartSolid : faHeart}
                       style={{
                         color: "red",
                         fontSize: "1.5rem",
                         cursor: "pointer",
-                        marginBottom: 8,
                       }}
+                      onClick={() => toggleFavorite(product)}
                     />
-                    <p className="api-product-type">{product.type}</p>
-                    <p className="api-product-description">
-                      {product.description || "No description available"}
+                  </div>
+                  <p className="home-product-item-description">
+                    {product.description || "No description available"}
+                  </p>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <p className="home-product-item-type">{product.type}</p>
+                    <p className="home-product-item-price">
+                      ${parseFloat(product.price).toFixed(2)}
                     </p>
+                  </div>
+                  <div className="home-product-item-actions">
                     <Link
                       to={`/detail/${product.id}`}
                       className="view-details-link"
                     >
                       View Details
                     </Link>
-                    <button onClick={() => handleAddToCart(product.id)}>
+                    <button
+                      onClick={() => addToCart(product)}
+                      className="add-to-cart"
+                    >
                       Add to Cart
                     </button>
                   </div>
                 </div>
-              ))}
-            </div>
-          ) : (
-            <p>No products match your search criteria.</p>
-          )}
-        </section>
+              </div>
+            ))}
+          </>
+        ) : (
+          <p>No products match your search criteria.</p>
+        )}
       </div>
     </div>
   );

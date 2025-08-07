@@ -1,15 +1,24 @@
 import { CiShoppingCart } from "react-icons/ci";
-import { MdOutlineRemoveShoppingCart } from "react-icons/md";
+import { FaRegTrashAlt } from "react-icons/fa";
 import "../Cart/Cart.css";
 import { Link } from "react-router-dom";
 import { useContext, useState } from "react";
 import UserContext from "../../context/context";
-import { MdOutlineShoppingCartCheckout } from "react-icons/md";
-// import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
-// import axios_instance from "../../ult/axios_instance";
+import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
+import axios_instance from "../../ult/axios_instance";
+import URL from "../../ult/url";
 
 const Cart = () => {
   const { state, dispatch } = useContext(UserContext);
+  const [order, setOrder] = useState({
+    id: null,
+    name: "",
+    email: "",
+    telephone: "",
+    address: "",
+    cart: state.cart,
+  });
+
   const cartItems = state.cart;
   const increaseQty = (id) => {
     dispatch({
@@ -17,12 +26,12 @@ const Cart = () => {
       payload: id,
     });
   };
-  // const options = {
-  //   clientId:
-  //     "AYGp_looQ2hRs8pyN1u0NRts_v6-AboGS9sLSNL_-yvL1YOVdPBDG8LtL19OdYBdhkjVHLx8MNKepzMS",
-  //   currency: "USD",
-  //   intent: "capture",
-  // };
+  const options = {
+    clientId:
+      "AWzvuU6YCAbMeiF1XgMPjTMXFz_m_qljHB-I7DDCAfQf7aQgvWuIAS1J_2bkvPaBYDkqsWmJV0P1yg-h",
+    currency: "USD",
+    intent: "capture",
+  };
 
   const decreaseQty = (id) => {
     dispatch({
@@ -74,6 +83,36 @@ const Cart = () => {
     return total + price * qty;
   }, 0);
 
+  const create_order = async (value, actions) => {
+    // call api create order
+    const rs = await axios_instance.post(URL.CREATE_ORDER, { order: order });
+    const data = rs.data.data; // order_id. grand_total
+    setOrder({ ...order, id: data.order_id, grand_total: data.grand_total });
+
+    return actions.order.create({
+      purchase_units: [
+        {
+          amount: {
+            value: data.grand_total,
+          },
+        },
+      ],
+    });
+  };
+
+  const on_approve = async (data, actions) => {
+    const rs = await axios_instance.get(URL.UPDATE_ORDER, {
+      params: { order_id: order.id },
+    });
+    return actions.order.capture().then(function (details) {
+      dispatch({ type: "UPDATE_CART", payload: [] });
+    });
+  };
+
+  const inputHandle = (e) => {
+    setOrder({ ...order, [e.target.name]: e.target.value });
+  };
+
   return (
     <div
       style={{ justifyContent: state.cart.length !== 0 ? "start" : "center" }}
@@ -92,38 +131,47 @@ const Cart = () => {
                         src={item.image}
                         alt={item.name}
                       />
-                      <div>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "space-between",
+                        }}
+                      >
                         <div className="cart-item-name">{item.name}</div>
                         <div className="cart-item-price">${item.price}</div>
                       </div>
                     </div>
                     <div className="cart-item-total">
                       <div className="total">${item.total_price}</div>
-                      <div className="cart-item-qty"></div>
-                      <button
-                        onClick={() => decreaseQty(item.id)}
-                        className="button-qty"
-                      >
-                        -
-                      </button>
-                      {item.qty}
-                      <button
-                        onClick={() => increaseQty(item.id)}
-                        className="button-qty"
-                      >
-                        +
-                      </button>
+                      <div className="cart-item-qty">
+                        <button
+                          onClick={() => decreaseQty(item.id)}
+                          className="button-qty"
+                        >
+                          -
+                        </button>
+                        <p style={{ fontSize: "1.25rem", color: "#78350F" }}>
+                          {item.qty}
+                        </p>
+                        <button
+                          onClick={() => increaseQty(item.id)}
+                          className="button-qty"
+                        >
+                          +
+                        </button>
+                      </div>
                       <div
                         onClick={() =>
                           dispatch({ type: "REMOVE_CART", payload: item.id })
                         }
                       >
-                        <MdOutlineRemoveShoppingCart
+                        <FaRegTrashAlt
                           style={{
-                            width: "25px",
-                            height: "25px",
+                            width: "1.25rem",
+                            height: "1.25rem",
                             color: "red",
-                            marginTop: "10px",
+                            cursor: "pointer",
                           }}
                         />
                       </div>
@@ -153,18 +201,22 @@ const Cart = () => {
                     Name
                     <input
                       type="text"
-                      id="Name"
+                      id="name"
                       placeholder="Your name"
-                      className="box"
+                      onChange={inputHandle}
+                      value={order.name}
+                      name="name"
                     ></input>
                   </p>
                   <p className="order-item-email">
                     Email
                     <input
-                      type="text"
-                      id="Email"
+                      type="email"
+                      id="email"
                       placeholder="Your email"
-                      className="box"
+                      onChange={inputHandle}
+                      value={order.email}
+                      name="email"
                     ></input>
                   </p>
                   <p className="order-item-telephone">
@@ -173,7 +225,9 @@ const Cart = () => {
                       type="text"
                       id="telephone"
                       placeholder="Your phone"
-                      className="box"
+                      onChange={inputHandle}
+                      value={order.telephone}
+                      name="telephone"
                     ></input>
                   </p>
                   <p className="order-item-telephone">
@@ -182,18 +236,23 @@ const Cart = () => {
                       type="text"
                       id="address"
                       placeholder="Address"
-                      className="box"
+                      onChange={inputHandle}
+                      value={order.address}
+                      name="address"
                     ></input>
                   </p>
                   <hr />
                   <div className="order-subtotal">
-                    <p>Subtotal : {subtotal}$</p>
+                    <p>Total: {subtotal}$</p>
                   </div>
                   <button className="order-checkout">
-                    <MdOutlineShoppingCartCheckout
-                      style={{ width: "20px", height: "20px" }}
-                    />
-                    Proceed to Checkout
+                    <PayPalScriptProvider options={options}>
+                      <PayPalButtons
+                        createOrder={create_order}
+                        onApprove={on_approve}
+                        style={{ layout: "horizontal", tagline: false }}
+                      />
+                    </PayPalScriptProvider>
                   </button>
                 </div>
               </div>
