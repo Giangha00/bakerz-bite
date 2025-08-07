@@ -360,6 +360,7 @@
   border-radius: 0 0 20px 20px;
   height: 274px;
   box-sizing: border-box;
+  
 }
 
 .api-product-info h3 {
@@ -372,6 +373,10 @@
   margin: 5px 0;
   color: rgb(120, 53, 15);
   font-style: italic;
+}
+.api-product-info a{
+  margin-top: 3px;
+  margin-bottom: 5px;
 }
 
 .home-container {

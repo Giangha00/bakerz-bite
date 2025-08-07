@@ -1,55 +1,90 @@
-import { Link } from 'react-router-dom';
-import './Home.css';
-import backgroundImage from '../../assets/images/background.png';
-import img1 from '../../assets/images/homepic1.jpeg';
-import img2 from '../../assets/images/homepic2.png';
-import img3 from '../../assets/images/homepic3.jpeg';
-import img4 from '../../assets/images/homepic4.jpeg';
-import React, { useState, useEffect, useCallback, useContext } from 'react';
-import UserContext from '../../context/context';
+import { Link } from "react-router-dom";
+import "./Home.css";
+import backgroundImage from "../../assets/images/background.png";
+import img1 from "../../assets/images/homepic1.jpeg";
+import img2 from "../../assets/images/homepic2.png";
+import img3 from "../../assets/images/homepic3.jpeg";
+import img4 from "../../assets/images/homepic4.jpeg";
+import React, { useState, useEffect, useCallback, useContext } from "react";
+import UserContext from "../../context/context";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
+import axios_instance from "../../ult/axios_instance";
 
 const Home = () => {
   const { dispatch } = useContext(UserContext);
   const products = [
-    { src: img1, name: 'Artisan Cakes', desc: 'Handcrafted with love' },
-    { src: img2, name: 'Fresh Pastries', desc: 'Baked daily' },
-    { src: img3, name: 'Gourmet Cookies', desc: 'Irresistible flavors' },
-    { src: img4, name: 'Specialty Pies', desc: 'Unique recipes' },
+    { src: img1, name: "Artisan Cakes", desc: "Handcrafted with love" },
+    { src: img2, name: "Fresh Pastries", desc: "Baked daily" },
+    { src: img3, name: "Gourmet Cookies", desc: "Irresistible flavors" },
+    { src: img4, name: "Specialty Pies", desc: "Unique recipes" },
   ];
 
   const [loading, setLoading] = useState(true);
   const [apiProducts, setApiProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [maxPrice, setMaxPrice] = useState(100);
-  const [sortOption, setSortOption] = useState('default');
+  const [sortOption, setSortOption] = useState("default");
   const [minPrice, setMinPrice] = useState(0);
-  const [selectedType, setSelectedType] = useState('');
+  const [selectedType, setSelectedType] = useState("");
+
+  const getProducts = async () => {
+    try {
+      const response = await axios_instance.get(URL.GET_PRODUCTS);
+      const data = await response.data.data;
+      setProducts(data);
+      const favoriteMap = {};
+      data.forEach((p) => {
+        favoriteMap[p.id] = Number(p.favorite) === 1;
+      });
+      setFavorites(favoriteMap);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+  const toggleFavorite = async (product) => {
+    try {
+      await axios_instance.post(URL.FAVORITE_PRODUCTS, {
+        product_id: product.id,
+      });
+      getProducts();
+    } catch (error) {
+      console.error("Error updating favorite:", error);
+    }
+  };
 
   const fetchProducts = useCallback(async () => {
     try {
-      const response = await fetch(`http://localhost:8888/api/products.php?min_price=${minPrice}&max_price=${maxPrice}`);
-      if (!response.ok) throw new Error('Network response was not ok');
-      
+      const response = await fetch(
+        `http://localhost/api/products.php?min_price=${minPrice}&max_price=${maxPrice}`
+      );
+      if (!response.ok) throw new Error("Network response was not ok");
+
       const data = await response.json();
       if (data.status && data.data) {
         const sortedProducts = data.data
-          .filter(product => [1, 2, 3].includes(parseInt(product.category_id)))
+          .filter((product) =>
+            [1, 2, 3].includes(parseInt(product.category_id))
+          )
           .sort((a, b) => parseInt(a.id) - parseInt(b.id))
-          .map(product => ({
+          .map((product) => ({
             ...product,
             subImages: [
-              product.sub_image1 || 'https://via.placeholder.com/150?text=Sub+Image+1',
-              product.sub_image2 || 'https://via.placeholder.com/150?text=Sub+Image+2',
-              product.sub_image3 || 'https://via.placeholder.com/150?text=Sub+Image+3'
+              product.sub_image1 ||
+                "https://via.placeholder.com/150?text=Sub+Image+1",
+              product.sub_image2 ||
+                "https://via.placeholder.com/150?text=Sub+Image+2",
+              product.sub_image3 ||
+                "https://via.placeholder.com/150?text=Sub+Image+3",
             ],
-            ingredients: product.ingredients || 'No ingredients available'
+            ingredients: product.ingredients || "No ingredients available",
           }));
         setApiProducts(sortedProducts);
         setFilteredProducts(sortedProducts);
       }
     } catch (error) {
-      console.error('Error fetching products:', error);
+      console.error("Error fetching products:", error);
     } finally {
       setLoading(false);
     }
@@ -60,8 +95,10 @@ const Home = () => {
   }, [fetchProducts]);
 
   useEffect(() => {
-    let filtered = apiProducts.filter(product => {
-      const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
+    let filtered = apiProducts.filter((product) => {
+      const matchesSearch = product.name
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
       const productPrice = parseFloat(product.price);
       const matchesPrice = productPrice >= minPrice && productPrice <= maxPrice;
       const matchesType = !selectedType || product.type === selectedType;
@@ -69,16 +106,16 @@ const Home = () => {
     });
 
     switch (sortOption) {
-      case 'name-asc':
+      case "name-asc":
         filtered.sort((a, b) => a.name.localeCompare(b.name));
         break;
-      case 'name-desc':
+      case "name-desc":
         filtered.sort((a, b) => b.name.localeCompare(a.name));
         break;
-      case 'price-asc':
+      case "price-asc":
         filtered.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
         break;
-      case 'price-desc':
+      case "price-desc":
         filtered.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
         break;
       default:
@@ -89,41 +126,41 @@ const Home = () => {
   }, [searchTerm, minPrice, maxPrice, sortOption, apiProducts, selectedType]);
 
   const addToCart = (product) => {
-  dispatch({
-    type: "ADD_TO_CART",
-    payload: {
-      id: product.id,
-      category_id: product.category_id,
-      name: product.name,
-      qty: 1, // Mỗi lần click sẽ thêm 1 sản phẩm
-      image: product.thumbnail,
-      price: product.price,
-    },
-  });
-};
+    dispatch({
+      type: "ADD_TO_CART",
+      payload: {
+        id: product.id,
+        category_id: product.category_id,
+        name: product.name,
+        qty: 1, // Mỗi lần click sẽ thêm 1 sản phẩm
+        image: product.thumbnail,
+        price: product.price,
+      },
+    });
+  };
 
-const handleAddToCart = async (productId) => {
-  try {
-    const product = apiProducts.find(p => p.id === productId);
-    if (product) {
-      addToCart(product);
-      
-      // Gửi yêu cầu cập nhật số lượng lên server
-      const response = await fetch('http://localhost:8888/update_order.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `product_id=${productId}&quantity=1&action=increase` // Thêm action=increase
-      });
-      
-      const result = await response.json();
-      if (!result.success) {
-        console.error('Failed to update server cart');
+  const handleAddToCart = async (productId) => {
+    try {
+      const product = apiProducts.find((p) => p.id === productId);
+      if (product) {
+        addToCart(product);
+
+        // Gửi yêu cầu cập nhật số lượng lên server
+        const response = await fetch("http://localhost:8888/update_order.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: `product_id=${productId}&quantity=1&action=increase`, // Thêm action=increase
+        });
+
+        const result = await response.json();
+        if (!result.success) {
+          console.error("Failed to update server cart");
+        }
       }
+    } catch (error) {
+      console.error("Error adding to cart:", error);
     }
-  } catch (error) {
-    console.error('Error adding to cart:', error);
-  }
-};
+  };
 
   const handlePriceChange = (e) => {
     const value = parseInt(e.target.value);
@@ -139,11 +176,14 @@ const handleAddToCart = async (productId) => {
     setSelectedType(e.target.value);
   };
 
-  const uniqueTypes = [...new Set(apiProducts.map(product => product.type))];
+  const uniqueTypes = [...new Set(apiProducts.map((product) => product.type))];
 
   return (
     <div className="home-container">
-      <div className="background-blur" style={{ backgroundImage: `url(${backgroundImage})` }}></div>
+      <div
+        className="background-blur"
+        style={{ backgroundImage: `url(${backgroundImage})` }}
+      ></div>
       <div className="home-page">
         <section className="hero">
           <div className="hero-content-container">
@@ -154,16 +194,44 @@ const handleAddToCart = async (productId) => {
           </div>
         </section>
         <section className="stats">
-          <div className="stat-item" style={{ animation: 'fadeIn 1s ease-in-out', transition: 'transform 0.3s ease' }}>100+ Recipes</div>
-          <div className="stat-item" style={{ animation: 'fadeIn 1.2s ease-in-out', transition: 'transform 0.3s ease' }}>50+ Varieties</div>
-          <div className="stat-item" style={{ animation: 'fadeIn 1.4s ease-in-out', transition: 'transform 0.3s ease' }}>500+ Happy Customers</div>
+          <div
+            className="stat-item"
+            style={{
+              animation: "fadeIn 1s ease-in-out",
+              transition: "transform 0.3s ease",
+            }}
+          >
+            100+ Recipes
+          </div>
+          <div
+            className="stat-item"
+            style={{
+              animation: "fadeIn 1.2s ease-in-out",
+              transition: "transform 0.3s ease",
+            }}
+          >
+            50+ Varieties
+          </div>
+          <div
+            className="stat-item"
+            style={{
+              animation: "fadeIn 1.4s ease-in-out",
+              transition: "transform 0.3s ease",
+            }}
+          >
+            500+ Happy Customers
+          </div>
         </section>
         <section className="products">
           <div className="product-row">
             {products.map((product, index) => (
               <div className="product-card" key={index}>
                 <div className="product-image-container">
-                  <img src={product.src} alt={product.name} className="product-image" />
+                  <img
+                    src={product.src}
+                    alt={product.name}
+                    className="product-image"
+                  />
                 </div>
                 <div className="product-content">
                   <h3>{product.name}</h3>
@@ -173,7 +241,7 @@ const handleAddToCart = async (productId) => {
             ))}
           </div>
         </section>
-        
+
         <section className="delicious-products">
           <h2>Delicious Products</h2>
           <p>Explore our wide range of freshly baked goods</p>
@@ -192,7 +260,7 @@ const handleAddToCart = async (productId) => {
                 className="type-select"
               >
                 <option value="">All Types</option>
-                {uniqueTypes.map(type => (
+                {uniqueTypes.map((type) => (
                   <option key={type} value={type}>
                     {type}
                   </option>
@@ -201,7 +269,12 @@ const handleAddToCart = async (productId) => {
             </div>
             <div className="price-filter-container">
               <div className="price-filter">
-                <label>Price Range: <span className="price-value">${minPrice} - ${maxPrice}</span></label>
+                <label>
+                  Price Range:{" "}
+                  <span className="price-value">
+                    ${minPrice} - ${maxPrice}
+                  </span>
+                </label>
                 <input
                   type="range"
                   min="0"
@@ -213,8 +286,8 @@ const handleAddToCart = async (productId) => {
               </div>
             </div>
             <div className="sort-container">
-              <select 
-                value={sortOption} 
+              <select
+                value={sortOption}
                 onChange={handleSortChange}
                 className="sort-select"
               >
@@ -239,16 +312,39 @@ const handleAddToCart = async (productId) => {
                     <img
                       src={product.thumbnail}
                       alt={product.name}
-                      onError={(e) => { e.target.src = 'https://via.placeholder.com/300x200?text=Image+Not+Available'; }}
+                      onError={(e) => {
+                        e.target.src =
+                          "https://via.placeholder.com/300x200?text=Image+Not+Available";
+                      }}
                     />
                   </div>
                   <div className="api-product-info">
                     <h3>{product.name}</h3>
-                    <p className="api-product-price">${parseFloat(product.price).toFixed(2)}</p>
+                    <p className="api-product-price">
+                      ${parseFloat(product.price).toFixed(2)}
+                    </p>
+                    <FontAwesomeIcon
+                      icon={favorites[product.id] ? faHeartSolid : faHeart}
+                      style={{
+                        color: "red",
+                        fontSize: "1.5rem",
+                        cursor: "pointer",
+                        marginBottom: 8,
+                      }}
+                    />
                     <p className="api-product-type">{product.type}</p>
-                    <p className="api-product-description">{product.description || 'No description available'}</p>
-                    <Link to={`/detail/${product.id}`} className="view-details-link">View Details</Link>
-                    <button onClick={() => handleAddToCart(product.id)}>Add to Cart</button>
+                    <p className="api-product-description">
+                      {product.description || "No description available"}
+                    </p>
+                    <Link
+                      to={`/detail/${product.id}`}
+                      className="view-details-link"
+                    >
+                      View Details
+                    </Link>
+                    <button onClick={() => handleAddToCart(product.id)}>
+                      Add to Cart
+                    </button>
                   </div>
                 </div>
               ))}
