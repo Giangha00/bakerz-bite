@@ -17,6 +17,7 @@ import reducer from "./context/reducer";
 import RunTime from "./components/RunTime";
 import Footer from "./components/Footer";
 import Favorite from "./pages/Favorite/Favorite";
+import OrderDetail from "./pages/OrderDetail/OrderDetail";
 
 function App() {
   let storage = localStorage.getItem("state");
@@ -46,6 +47,7 @@ function App() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/detail/:id" element={<Detail />} />
             <Route path="/favorite" element={<Favorite />} />
+            <Route path="./order_detail" element={<OrderDetail />} />
           </Routes>
         </div>
         <Footer />

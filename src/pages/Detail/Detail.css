@@ -135,6 +135,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  outline: none;
+  border: none;
 }
 
 .detail-qty-selector {
@@ -329,7 +331,7 @@
 
 .recommended-image {
   width: 100%;
-  height: 200px;
+  height: 300px;
   object-fit: cover;
   transition: transform 0.3s ease;
 }
@@ -386,7 +388,7 @@
 .recommended-price {
   font-size: 1.1rem;
   font-weight: bold;
-  color: var(--primary-color);
+  color: var(--primary-text-color);
   margin: 0 0 1rem 0;
 }
 
