@@ -41,6 +41,43 @@ const Cart = () => {
       payload: id,
     });
   };
+  // const options = {
+  //   clientId:
+  //     "AYGp_looQ2hRs8pyN1u0NRts_v6-AboGS9sLSNL_-yvL1YOVdPBDG8LtL19OdYBdhkjVHLx8MNKepzMS",
+  //   currency: "USD",
+  //   intent: "capture",
+  // };
+  // const [order, setOrder] = useState({
+  //   id: null,
+  //   name: "",
+  //   telephone: "",
+  //   address: "",
+  //   cart: state.cart,
+  // });
+  // const create_order = async (value, actions) => {
+  //   // call api create order
+  //   const rs = await axios_instance.post(URL.CREATE_ORDER, { order: order });
+  //   const data = rs.data.data;
+  //   setOrder({ ...order, id: data.order_id, grand_total: data.grand_total });
+  //   return actions.order.create({
+  //     purchase_units: [
+  //       {
+  //         amount: {
+  //           value: data.grand_total,
+  //         },
+  //       },
+  //     ],
+  //   });
+  // };
+  // const on_approve = async (value, actions) => {
+  //   const rs = await axios_instance.post(URL.UPDATE_ORDER, { id: order.id });
+  //   if (rs.data.status) {
+  //     alert("Thanh toán thành công!");
+  //   }
+  //   return actions.order.capture().then(function (details) {
+  //     console.log("transaction completed by" + details.payer.name.given_name);
+  //   });
+  // };
 
   const subtotal = state.cart.reduce((total, item) => {
     const price = parseFloat(item.price?.toString().replace(",", ".")) || 0;

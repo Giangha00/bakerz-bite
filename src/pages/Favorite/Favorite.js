@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import UserContext from "../../context/context";
 import "./Favorite.css";
 import axios_instance from "../../ult/axios_instance";
 import URL from "../../ult/url";
+import { NavLink } from "react-router-dom";
 
 const Favorite = () => {
   const [product, setProduct] = useState([]);
+  const { state, dispatch } = useContext(UserContext);
 
   const getProduct = async () => {
     try {
@@ -19,6 +22,19 @@ const Favorite = () => {
   useEffect(() => {
     getProduct();
   }, []);
+  const addToCart = (p) => {
+    dispatch({
+      type: "ADD_TO_CART",
+      payload: {
+        id: p.id,
+        category_id: p.category_id,
+        name: p.name,
+        qty: 1,
+        image: p.thumbnail,
+        price: p.price,
+      },
+    });
+  };
 
   return (
     <div className="favorite-page">
@@ -34,6 +50,20 @@ const Favorite = () => {
                 className="favorite-img"
               />
               <div className="favorite-name">{item.name}</div>
+              <div className="merchandise-cart-btns">
+                <NavLink
+                  to={`/detail/${item.id}`}
+                  className="merchandise-cart-btn__detail"
+                >
+                  View Detail
+                </NavLink>
+                <button
+                  className="merchandise-cart-btn__add"
+                  onClick={() => addToCart(item)}
+                >
+                  Add to Cart
+                </button>
+              </div>
             </div>
           ))}
       </div>
