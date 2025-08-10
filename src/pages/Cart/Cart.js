@@ -7,6 +7,7 @@ import UserContext from "../../context/context";
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import axios_instance from "../../ult/axios_instance";
 import URL from "../../ult/url";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const { state, dispatch } = useContext(UserContext);
@@ -18,6 +19,7 @@ const Cart = () => {
     address: "",
     cart: state.cart,
   });
+  const navigate = useNavigate();
 
   const cartItems = state.cart;
   const increaseQty = (id) => {
@@ -64,12 +66,16 @@ const Cart = () => {
   };
 
   const on_approve = async (data, actions) => {
-    const rs = await axios_instance.get(URL.UPDATE_ORDER, {
-      params: { order_id: order.id },
-    });
-    return actions.order.capture().then(function (details) {
+    try {
+      await actions.order.capture();
+
+      await axios_instance.get(URL.UPDATE_ORDER, {
+        params: { order_id: order.id },
+      });
       dispatch({ type: "UPDATE_CART", payload: [] });
-    });
+    } catch (error) {
+      console.error("Payment error:", error);
+    }
   };
 
   const inputHandle = (e) => {
@@ -208,15 +214,19 @@ const Cart = () => {
                   <div className="order-subtotal">
                     <p>Total: {subtotal}$</p>
                   </div>
-                  <button className="order-checkout">
+                  <div className="order-checkout">
                     <PayPalScriptProvider options={options}>
                       <PayPalButtons
                         createOrder={create_order}
                         onApprove={on_approve}
-                        style={{ layout: "horizontal", tagline: false }}
+                        onCancel={() => navigate("/order_detail")}
+                        style={{
+                          layout: "horizontal",
+                          tagline: false,
+                        }}
                       />
                     </PayPalScriptProvider>
-                  </button>
+                  </div>
                 </div>
               </div>
             </div>
