@@ -39,7 +39,7 @@ const Home = () => {
   const fetchProducts = useCallback(async () => {
     try {
       const response = await fetch(
-        `http://localhost/api/products.php?min_price=${minPrice}&max_price=${maxPrice}`
+        `http://localhost:8888/api/products.php?min_price=${minPrice}&max_price=${maxPrice}`
       );
       if (!response.ok) throw new Error("Network response was not ok");
 
@@ -156,6 +156,8 @@ const Home = () => {
       console.error("Error updating favorite:", error);
     }
   };
+
+  console.log("apiProducts", apiProducts);
 
   return (
     <div className="home-page">

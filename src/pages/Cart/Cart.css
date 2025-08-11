@@ -177,6 +177,12 @@
   border: 1px solid var(--border-input-focus-color);
 }
 
+.order-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 .order-info-item p {
   margin-bottom: 20px;
   width: 100%;

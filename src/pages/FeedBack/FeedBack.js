@@ -33,6 +33,7 @@ const FeedBack = () => {
       rate: data.rate,
       message: data.message,
     });
+    getFeedback();
   };
 
   const inputHandle = (e) => {

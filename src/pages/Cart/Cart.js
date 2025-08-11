@@ -41,43 +41,6 @@ const Cart = () => {
       payload: id,
     });
   };
-  // const options = {
-  //   clientId:
-  //     "AYGp_looQ2hRs8pyN1u0NRts_v6-AboGS9sLSNL_-yvL1YOVdPBDG8LtL19OdYBdhkjVHLx8MNKepzMS",
-  //   currency: "USD",
-  //   intent: "capture",
-  // };
-  // const [order, setOrder] = useState({
-  //   id: null,
-  //   name: "",
-  //   telephone: "",
-  //   address: "",
-  //   cart: state.cart,
-  // });
-  // const create_order = async (value, actions) => {
-  //   // call api create order
-  //   const rs = await axios_instance.post(URL.CREATE_ORDER, { order: order });
-  //   const data = rs.data.data;
-  //   setOrder({ ...order, id: data.order_id, grand_total: data.grand_total });
-  //   return actions.order.create({
-  //     purchase_units: [
-  //       {
-  //         amount: {
-  //           value: data.grand_total,
-  //         },
-  //       },
-  //     ],
-  //   });
-  // };
-  // const on_approve = async (value, actions) => {
-  //   const rs = await axios_instance.post(URL.UPDATE_ORDER, { id: order.id });
-  //   if (rs.data.status) {
-  //     alert("Thanh toán thành công!");
-  //   }
-  //   return actions.order.capture().then(function (details) {
-  //     console.log("transaction completed by" + details.payer.name.given_name);
-  //   });
-  // };
 
   const subtotal = state.cart.reduce((total, item) => {
     const price = parseFloat(item.price?.toString().replace(",", ".")) || 0;
@@ -86,10 +49,11 @@ const Cart = () => {
   }, 0);
 
   const create_order = async (value, actions) => {
-    // call api create order
     const rs = await axios_instance.post(URL.CREATE_ORDER, { order: order });
-    const data = rs.data.data; // order_id. grand_total
+    const data = rs.data.data;
     setOrder({ ...order, id: data.order_id, grand_total: data.grand_total });
+
+    localStorage.setItem("last_order_id", data.order_id);
 
     return actions.order.create({
       purchase_units: [
@@ -118,6 +82,8 @@ const Cart = () => {
   const inputHandle = (e) => {
     setOrder({ ...order, [e.target.name]: e.target.value });
   };
+
+  const lastOrderId = localStorage.getItem("last_order_id");
 
   return (
     <div
@@ -256,7 +222,10 @@ const Cart = () => {
                       <PayPalButtons
                         createOrder={create_order}
                         onApprove={on_approve}
-                        onCancel={() => navigate("/order_detail")}
+                        onCancel={() => {
+                          navigate(`/order_detail/${order.id}`);
+                          dispatch({ type: "CLEAR_CART" });
+                        }}
                         style={{
                           layout: "horizontal",
                           tagline: false,
@@ -283,6 +252,23 @@ const Cart = () => {
               <button className="cart-content-btn">Continue shopping</button>
             </Link>
           </div>
+          {lastOrderId && (
+            <button
+              onClick={() => navigate(`/order_detail/${lastOrderId}`)}
+              style={{
+                margin: "10px auto",
+                padding: "10px 15px",
+                background: "var(--button-color)",
+                color: "white",
+                border: "none",
+                borderRadius: "5px",
+                cursor: "pointer",
+                maxWidth: "200px",
+              }}
+            >
+              View Last Order
+            </button>
+          )}
         </>
       )}
     </div>

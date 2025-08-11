@@ -1,12 +1,68 @@
 .order-detail {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 5rem;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.05);
+  font-family: sans-serif;
   background: var(--secondary-background-color);
 }
 
-.order-detail h1 {
-  color: var(--primary-text-color);
+.order-title {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #78350f;
+}
+
+.order-info {
+  background: #fff;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
   margin-bottom: 2rem;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.order-info h2 {
+  margin-bottom: 1rem;
+  color: #92400e;
+}
+
+.order-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.5rem;
+}
+
+.order-info p {
+  margin: 0;
+  color: var(--secondary-text-color);
+}
+
+.order-items h2 {
+  margin-bottom: 1rem;
+  color: #92400e;
+}
+
+.order-items table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.order-items th,
+.order-items td {
+  border: 1px solid #f0e6d6;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.order-items th {
+  background: #fef3c7;
+  color: #78350f;
+}
+
+.order-items tbody tr:nth-child(even) {
+  background: #fff8f0;
 }
