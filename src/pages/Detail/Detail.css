@@ -247,8 +247,8 @@
 }
 
 .detail-ingredient-layout {
-  background-color: #ffedb0;
-  padding: 1rem;
+  /* background-color: #ffedb0; */
+  /* padding: 1rem; */
   border-radius: var(--border-card-radius);
   max-width: 500px;
 }

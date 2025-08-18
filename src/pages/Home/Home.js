@@ -157,8 +157,6 @@ const Home = () => {
     }
   };
 
-  console.log("apiProducts", apiProducts);
-
   return (
     <div className="home-page">
       <div className="home-container">

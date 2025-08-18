@@ -249,6 +249,11 @@
   color: #b45309;
   font-size: 0.8rem;
   line-height: 20px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Giới hạn 2 dòng */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .home-product-item-type {

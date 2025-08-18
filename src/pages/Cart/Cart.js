@@ -1,6 +1,6 @@
 import { CiShoppingCart } from "react-icons/ci";
 import { FaRegTrashAlt } from "react-icons/fa";
-import "../Cart/Cart.css";
+import "./Cart.css";
 import { Link } from "react-router-dom";
 import { useContext, useState } from "react";
 import UserContext from "../../context/context";
@@ -49,31 +49,63 @@ const Cart = () => {
   }, 0);
 
   const create_order = async (value, actions) => {
-    const rs = await axios_instance.post(URL.CREATE_ORDER, { order: order });
-    const data = rs.data.data;
-    setOrder({ ...order, id: data.order_id, grand_total: data.grand_total });
+    try {
+      const payload = {
+        name: order.name,
+        email: order.email,
+        telephone: order.telephone,
+        address: order.address,
+        cart: state.cart,
+      };
 
-    localStorage.setItem("last_order_id", data.order_id);
+      const rs = await axios_instance.post(URL.CREATE_ORDER, payload);
 
-    return actions.order.create({
-      purchase_units: [
-        {
-          amount: {
-            value: data.grand_total,
-          },
-        },
-      ],
-    });
+      if (rs.data.status) {
+        const newOrderId = rs.data.order_id;
+        const grandTotal = rs.data.grand_total;
+
+        setOrder((prev) => ({
+          ...prev,
+          id: newOrderId,
+          grand_total: grandTotal,
+        }));
+
+        localStorage.setItem("last_order_id", newOrderId);
+
+        return actions.order.create({
+          purchase_units: [
+            {
+              amount: {
+                value: grandTotal,
+              },
+            },
+          ],
+        });
+      } else {
+        alert(`Create order failed: ${rs.data.message}`);
+        return;
+      }
+    } catch (error) {
+      console.error("Error creating order:", error);
+      alert("Error creating order");
+    }
   };
 
   const on_approve = async (data, actions) => {
     try {
       await actions.order.capture();
 
+      if (!order.id) {
+        console.error("No order ID found");
+        return;
+      }
+
       await axios_instance.get(URL.UPDATE_ORDER, {
         params: { order_id: order.id },
       });
-      dispatch({ type: "UPDATE_CART", payload: [] });
+
+      dispatch({ type: "CLEAR_CART" });
+      navigate(`/order_detail/${order.id}`);
     } catch (error) {
       console.error("Payment error:", error);
     }
@@ -166,7 +198,7 @@ const Cart = () => {
             </div>
             <div className="order-summary">
               <h2>Order Summary</h2>
-              <div className="order-info">
+              <div className="cart-info">
                 <h3>Order information :</h3>
                 <div className="order-info-item">
                   <p className="order-item-name">
@@ -233,6 +265,24 @@ const Cart = () => {
                       />
                     </PayPalScriptProvider>
                   </div>
+                  {lastOrderId && (
+                    <button
+                      onClick={() => navigate(`/order_detail/${lastOrderId}`)}
+                      style={{
+                        margin: "10px auto",
+                        padding: "10px 15px",
+                        background: "var(--button-color)",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "5px",
+                        cursor: "pointer",
+                        maxWidth: "200px",
+                        width: "100%",
+                      }}
+                    >
+                      View Last Order
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

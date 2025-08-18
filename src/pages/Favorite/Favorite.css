@@ -45,24 +45,7 @@
   font-weight: 500;
 }
 
-/* Responsive adjustments */
-@media (max-width: 600px) {
-  .favorite-title {
-    font-size: 1.3rem;
-  }
-  .favorite-list {
-    gap: 14px;
-  }
-  .favorite-card {
-    padding: 10px;
-  }
-  .favorite-img {
-    max-width: 100px;
-    height: 80px;
-  }
-}
-.favorite-list
-{
+.favorite-list {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
@@ -71,7 +54,118 @@
   gap: 2rem;
   justify-content: center;
 }
-.merchandise-cart-btns 
-{
+.merchandise-cart-btns {
   margin-top: 10px;
+}
+
+.home-product-item {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--border-card-radius);
+  background-color: #fff;
+  transition: transform 0.3s ease;
+  max-width: 400px;
+}
+
+.home-product-item-img {
+  width: 100%;
+  height: 20rem;
+  border-top-left-radius: var(--border-card-radius);
+  border-top-right-radius: var(--border-card-radius);
+  overflow: hidden;
+}
+
+.home-product-item-img img {
+  width: 100%;
+  height: 100%;
+}
+
+.home-product-item-img {
+  height: 14rem;
+}
+
+.home-product-item-info {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.home-product-item-info {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.home-product-item-name {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.home-product-item-name h3 {
+  color: #78350f;
+}
+
+.home-product-item-description {
+  color: #b45309;
+  font-size: 0.8rem;
+  line-height: 20px;
+}
+
+.home-product-item-type {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #d97706;
+}
+
+.home-product-item-price {
+  font-size: 1.125rem;
+  color: #78350f;
+  font-weight: bold;
+}
+
+.home-product-item-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  gap: 0.5rem;
+}
+
+.view-details-link {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 30px;
+  border-radius: var(--border-button-radius);
+  background-color: #fef3c7;
+  color: #78350f;
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.add-to-cart {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 30px;
+  border-radius: var(--border-button-radius);
+  background: var(--button-color);
+  color: #fff;
+  font-size: 15px;
+  border: none;
+}
+
+.favorite-empty {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-height: 500px;
+  gap: 1rem;
 }

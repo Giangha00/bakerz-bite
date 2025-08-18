@@ -177,6 +177,14 @@
   border: 1px solid var(--border-input-focus-color);
 }
 
+.cart-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem 0;
+  color: #92400e;
+}
+
 .order-info-item {
   display: flex;
   flex-direction: column;

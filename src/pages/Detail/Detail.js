@@ -273,7 +273,7 @@ const Detail = () => {
             <div className="detail-ingredient-selector">
               <h3>Ingredient</h3>
               <div className="detail-ingredient-layout">
-                <ul>
+                <ul style={{ margin: 0 }}>
                   {productIngredients.map((ingredient, index) => (
                     <li key={index}>{ingredient}</li>
                   ))}
