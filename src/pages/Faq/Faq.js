@@ -1,18 +1,13 @@
-import React, { useState } from 'react';
-import './Faq.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import React, { useState } from "react";
+import "./Faq.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 
 const faqData = [
   {
     question: "What are your opening hours?",
     answer:
       "We are open Monday to Saturday from 6:00 AM to 9:00 PM, and Sunday from 7:00 AM to 8:00 PM.",
-  },
-  {
-    question: "Do you offer custom cakes?",
-    answer:
-      "Yes! We offer custom cakes for all occasions. Please place your order at least 48 hours in advance for custom designs.",
   },
   {
     question: "Do you have gluten-free options?",
@@ -67,17 +62,30 @@ const Faq = () => {
     <div className="faq-container">
       <section className="faq-root">
         <h1 className="faq-title">Frequently Asked Questions</h1>
-        <p className="faq-subtitle">Find answers to common questions about our products and services</p>
+        <p className="faq-subtitle">
+          Find answers to common questions about our products and services
+        </p>
         <div className="faq-list">
           {faqData.map((item, idx) => (
-            <div className={`faq-item${openIndex === idx ? ' open' : ''}`} key={idx}>
-              <button className="faq-question" onClick={() => toggleAccordion(idx)}>
+            <div
+              className={`faq-item${openIndex === idx ? " open" : ""}`}
+              key={idx}
+            >
+              <button
+                className="faq-question"
+                onClick={() => toggleAccordion(idx)}
+              >
                 {item.question}
                 <span className="faq-arrow">
-                  <FontAwesomeIcon icon={openIndex === idx ? faChevronUp : faChevronDown} />
+                  <FontAwesomeIcon
+                    icon={openIndex === idx ? faChevronUp : faChevronDown}
+                  />
                 </span>
               </button>
-              <div className="faq-answer" style={{ display: openIndex === idx ? 'block' : 'none' }}>
+              <div
+                className="faq-answer"
+                style={{ display: openIndex === idx ? "block" : "none" }}
+              >
                 {item.answer}
               </div>
             </div>

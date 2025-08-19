@@ -1,8 +1,9 @@
 import "./OrderDetail.css";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios_instance from "../../ult/axios_instance";
 import URL from "../../ult/url";
+import { CiShoppingCart } from "react-icons/ci";
 
 const OrderDetail = () => {
   const { order_id } = useParams();
@@ -25,7 +26,23 @@ const OrderDetail = () => {
   }, [order_id]);
 
   if (loading) return <p>Loading...</p>;
-  if (!order) return <p>Order not found</p>;
+  if (!order)
+    return (
+      <div className="no-order">
+        <div>
+          <CiShoppingCart className="cart-icon" />
+        </div>
+        <div className="cart" style={{ textAlign: "center" }}>
+          <h1 className="cart-content-title">No Order Yet</h1>
+          <p className="cart-content-des">
+            Looks like you haven't placed any orders yet.
+          </p>
+          <Link to="/">
+            <button className="cart-content-btn">Continue shopping</button>
+          </Link>
+        </div>
+      </div>
+    );
 
   return (
     <div className="order-detail">
@@ -50,8 +67,7 @@ const OrderDetail = () => {
             <strong>Status:</strong> {order.order_status}
           </p>
           <p>
-            <strong>Total:</strong> $
-            {Number(order.grand_total).toFixed(2).replace(/\.00$/, "")}
+            <strong>Total:</strong> ${order.grand_total}
           </p>
         </div>
       </div>

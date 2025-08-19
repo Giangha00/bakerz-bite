@@ -70,7 +70,10 @@ const Footer = () => {
                   icon={faLocationDot}
                   style={{ color: "#fde68a", marginRight: 8 }}
                 />
-                <p>13 Trinh Van Bo</p>
+                <p>
+                  13 Trinh Van Bo Street,
+                  <br /> Xuan Phuong, Nam Tu Liem, Hanoi, Vietnam
+                </p>
               </li>
               <li>
                 <FontAwesomeIcon

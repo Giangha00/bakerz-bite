@@ -48,9 +48,8 @@ const ContactUs = () => {
                 <div>
                   <strong>Address</strong>
                   <p>
-                    742 Evergreen Terrace
-                    <br />
-                    Springfield, USA
+                    13 Trinh Van Bo Street,
+                    <br /> Xuan Phuong, Nam Tu Liem, Hanoi, Vietnam
                   </p>
                 </div>
               </div>
