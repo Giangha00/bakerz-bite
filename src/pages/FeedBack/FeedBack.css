@@ -218,6 +218,20 @@
   overflow-wrap: anywhere;
 }
 
+.feedback-error {
+  color: red;
+  font-size: 0.85rem;
+  margin-top: 3px;
+}
+
+.feedback-input-name .input-error {
+  border: 2px solid red !important;
+}
+
+.feedback-input-email .input-error {
+  border: 2px solid red !important;
+}
+
 @media (max-width: 1100px) {
   .feedback-container {
     padding: 3rem 2rem;

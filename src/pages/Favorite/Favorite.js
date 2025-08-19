@@ -7,11 +7,13 @@ import { Link, NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
+import Popup from "../../components/Popup/Popup";
 
 const Favorite = () => {
   const [product, setProduct] = useState([]);
   const { state, dispatch } = useContext(UserContext);
   const [favorite, setFavorites] = useState({});
+  const [popupOpen, setPopupOpen] = useState(false);
 
   const getProduct = async () => {
     try {
@@ -45,6 +47,7 @@ const Favorite = () => {
         price: p.price,
       },
     });
+    setPopupOpen(true);
   };
 
   const toggleFavorite = async (productItem) => {
@@ -153,6 +156,12 @@ const Favorite = () => {
             ))
         )}
       </div>
+      <Popup
+        open={popupOpen}
+        onClose={() => setPopupOpen(false)}
+        title="Added to Cart Successfully"
+        type="success"
+      />
     </div>
   );
 };

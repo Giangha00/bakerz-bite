@@ -7,10 +7,13 @@ import "./FeedBack.css";
 import { useEffect, useState } from "react";
 import URL from "../../ult/url";
 import axios_instance from "../../ult/axios_instance";
+import Popup from "../../components/Popup/Popup";
 
 const FeedBack = () => {
   const [hovered, setHovered] = useState(0);
   const [selected, setSelected] = useState(0);
+  const [errors, setErrors] = useState({});
+  const [popupOpen, setPopupOpen] = useState(false);
   const [feedback, setFeedback] = useState({
     name: "",
     email: "",
@@ -21,8 +24,24 @@ const FeedBack = () => {
 
   const stars = [1, 2, 3, 4, 5];
 
+  const validateForm = () => {
+    let newErrors = {};
+    if (!feedback.name.trim()) {
+      newErrors.name = "Name is required";
+    }
+    if (!feedback.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(feedback.email)) {
+      newErrors.email = "Invalid email format";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const createReview = async (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
+
     const rs = await axios_instance.post(URL.CREATE_FEED_BACK, {
       feedback: feedback,
     });
@@ -34,11 +53,13 @@ const FeedBack = () => {
       message: data.message,
     });
     getFeedback();
+    setPopupOpen(true);
   };
 
   const inputHandle = (e) => {
     const { name, value } = e.target;
     setFeedback({ ...feedback, [name]: value });
+    setErrors({ ...errors, [name]: "" });
   };
 
   const getFeedback = async () => {
@@ -97,20 +118,33 @@ const FeedBack = () => {
                   <input
                     type="text"
                     placeholder="Your Name"
-                    className="feedback-input-name"
+                    className={`feedback-input-name ${
+                      errors.name ? "input-error" : ""
+                    }`}
                     name="name"
                     onChange={inputHandle}
+                    value={feedback.name}
                   />
+                  {errors.name && (
+                    <span className="feedback-error">{errors.name}</span>
+                  )}
                 </div>
+
                 <div className="feedback-input-text">
                   <p>Email</p>
                   <input
                     type="text"
                     placeholder="Your Email"
-                    className="feedback-input-email"
+                    className={`feedback-input-email ${
+                      errors.email ? "input-error" : ""
+                    }`}
                     name="email"
                     onChange={inputHandle}
+                    value={feedback.email}
                   />
+                  {errors.email && (
+                    <span className="feedback-error">{errors.email}</span>
+                  )}
                 </div>
               </div>
               <div className="feedback-rate">
@@ -160,11 +194,7 @@ const FeedBack = () => {
                   onChange={inputHandle}
                 />
               </div>
-              <button
-                className="feedback-submit"
-                type="submit"
-                disabled={!feedback.name || !feedback.email}
-              >
+              <button className="feedback-submit" type="submit">
                 <FontAwesomeIcon
                   icon={faPlane}
                   style={{
@@ -233,6 +263,12 @@ const FeedBack = () => {
           </div>
         </div>
       </div>
+      <Popup
+        open={popupOpen}
+        onClose={() => setPopupOpen(false)}
+        title="Feedback Submitted"
+        type="success"
+      />
     </div>
   );
 };

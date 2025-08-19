@@ -16,15 +16,10 @@ import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
 import axios_instance from "../../ult/axios_instance";
 import URL from "../../ult/url";
+import Popup from "../../components/Popup/Popup";
 
 const Home = () => {
   const { dispatch } = useContext(UserContext);
-  // const products = [
-  //   { src: img1, name: "Artisan Cakes", desc: "Handcrafted with love" },
-  //   { src: img2, name: "Fresh Pastries", desc: "Baked daily" },
-  //   { src: img3, name: "Gourmet Cookies", desc: "Irresistible flavors" },
-  //   { src: img4, name: "Specialty Pies", desc: "Unique recipes" },
-  // ];
 
   const [loading, setLoading] = useState(true);
   const [apiProducts, setApiProducts] = useState([]);
@@ -35,6 +30,7 @@ const Home = () => {
   const [minPrice, setMinPrice] = useState(0);
   const [selectedType, setSelectedType] = useState("");
   const [favorite, setFavorites] = useState({});
+  const [popupOpen, setPopupOpen] = useState(false);
 
   const fetchProducts = useCallback(async () => {
     try {
@@ -124,6 +120,7 @@ const Home = () => {
         price: p.price,
       },
     });
+    setPopupOpen(true);
   };
 
   const handlePriceChange = (e) => {
@@ -328,6 +325,12 @@ const Home = () => {
           <p>No products match your search criteria.</p>
         )}
       </div>
+      <Popup
+        open={popupOpen}
+        onClose={() => setPopupOpen(false)}
+        title="Added to Cart Successfully"
+        type="success"
+      />
     </div>
   );
 };

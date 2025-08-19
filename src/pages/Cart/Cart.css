@@ -278,3 +278,13 @@ hr {
     align-items: stretch;
   }
 }
+
+.error {
+  color: red;
+  font-size: 0.85rem;
+  margin-top: 3px;
+}
+
+.input-error {
+  border: 1px solid red !important;
+}

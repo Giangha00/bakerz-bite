@@ -8,9 +8,12 @@ import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import axios_instance from "../../ult/axios_instance";
 import URL from "../../ult/url";
 import { useNavigate } from "react-router-dom";
+import Popup from "../../components/Popup/Popup";
 
 const Cart = () => {
   const { state, dispatch } = useContext(UserContext);
+  const [errors, setErrors] = useState({});
+  const [popupOpen, setPopupOpen] = useState(false);
   const [order, setOrder] = useState({
     id: null,
     name: "",
@@ -48,7 +51,30 @@ const Cart = () => {
     return total + price * qty;
   }, 0);
 
+  const validateForm = () => {
+    let newErrors = {};
+    if (!order.name.trim()) newErrors.name = "Name is required";
+    if (!order.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(order.email)) {
+      newErrors.email = "Invalid email format";
+    }
+    if (!order.telephone.trim()) {
+      newErrors.telephone = "Telephone is required";
+    } else if (!/^\d{8,15}$/.test(order.telephone)) {
+      newErrors.telephone = "Telephone must be 8-15 digits";
+    }
+    if (!order.address.trim()) newErrors.address = "Address is required";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const create_order = async (value, actions) => {
+    if (!validateForm()) {
+      return;
+    }
+
     try {
       const payload = {
         name: order.name,
@@ -72,7 +98,7 @@ const Cart = () => {
 
         localStorage.setItem("last_order_id", newOrderId);
 
-        return actions.order.create({
+        return await actions.order.create({
           purchase_units: [
             {
               amount: {
@@ -201,8 +227,8 @@ const Cart = () => {
               <div className="cart-info">
                 <h3>Order information :</h3>
                 <div className="order-info-item">
-                  <p className="order-item-name">
-                    Name
+                  <div className="order-item-name">
+                    <label htmlFor="name">Name</label>
                     <input
                       type="text"
                       id="name"
@@ -210,10 +236,15 @@ const Cart = () => {
                       onChange={inputHandle}
                       value={order.name}
                       name="name"
-                    ></input>
-                  </p>
-                  <p className="order-item-email">
-                    Email
+                      className={errors.name ? "input-error" : ""}
+                    />
+                    {errors.name && (
+                      <span className="error">{errors.name}</span>
+                    )}
+                  </div>
+
+                  <div className="order-item-email">
+                    <label htmlFor="email">Email</label>
                     <input
                       type="email"
                       id="email"
@@ -221,21 +252,31 @@ const Cart = () => {
                       onChange={inputHandle}
                       value={order.email}
                       name="email"
-                    ></input>
-                  </p>
-                  <p className="order-item-telephone">
-                    Telephone
+                      className={errors.email ? "input-error" : ""}
+                    />
+                    {errors.email && (
+                      <span className="error">{errors.email}</span>
+                    )}
+                  </div>
+
+                  <div className="order-item-telephone">
+                    <label htmlFor="telephone">Telephone</label>
                     <input
-                      type="text"
+                      type="number"
                       id="telephone"
                       placeholder="Your phone"
                       onChange={inputHandle}
                       value={order.telephone}
                       name="telephone"
-                    ></input>
-                  </p>
-                  <p className="order-item-telephone">
-                    Address
+                      className={errors.telephone ? "input-error" : ""}
+                    />
+                    {errors.telephone && (
+                      <span className="error">{errors.telephone}</span>
+                    )}
+                  </div>
+
+                  <div className="order-item-telephone">
+                    <label htmlFor="address">Address</label>
                     <input
                       type="text"
                       id="address"
@@ -243,8 +284,13 @@ const Cart = () => {
                       onChange={inputHandle}
                       value={order.address}
                       name="address"
-                    ></input>
-                  </p>
+                      className={errors.address ? "input-error" : ""}
+                    />
+                    {errors.address && (
+                      <span className="error">{errors.address}</span>
+                    )}
+                  </div>
+
                   <hr />
                   <div className="order-subtotal">
                     <p>Total: {subtotal}$</p>
@@ -257,6 +303,10 @@ const Cart = () => {
                         onCancel={() => {
                           navigate(`/order_detail/${order.id}`);
                           dispatch({ type: "CLEAR_CART" });
+                          setPopupOpen(true);
+                        }}
+                        onError={(err) => {
+                          console.warn("PayPal error blocked:", err);
                         }}
                         style={{
                           layout: "horizontal",
@@ -321,6 +371,12 @@ const Cart = () => {
           )}
         </>
       )}
+      <Popup
+        open={popupOpen}
+        onClose={() => setPopupOpen(false)}
+        title="Added to Cart Successfully"
+        type="success"
+      />
     </div>
   );
 };
